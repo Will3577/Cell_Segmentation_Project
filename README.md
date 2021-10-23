@@ -14,9 +14,13 @@
     Use option A in this [link](https://stackoverflow.com/questions/651038/how-do-you-clone-a-git-repository-into-a-specific-folder)
 
     Having trouble finding the https repo link?
+
         1. On the GitHub website, click on you repository of interest.
+
         2. Locate the button named "Code" and click on it. The GitHub URL will appear.
+
         3. Copy the GitHub URL
+        
         4. Use the command described in option A: "git clone link folder-name"
 
 2. Open the folder with your favorite IDE and modify the code

@@ -4,7 +4,7 @@
 Author: Hengrui Wang
 
 #### General steps for executing code on Google Colab:
-1. Upload dataset.zip to Google drive(any questions, see this [link](https://support.google.com/drive/answer/2424368?hl=en&co=GENIE.Platform%3DDesktop))
+1. Use the unzipped dataset("Sequences" folder) on Git Hub
 2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU" (If you want to use CPU, ignore this step but make sure to change "--device" option to "cpu" when training and testing)
 3. click on Files icon on left side, click mount google drive
 4. Modify the dataset path after "!unzip " to your dataset path in Google Drive

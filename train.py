@@ -51,16 +51,16 @@ if args.val_folder:
 else:
     saving_target = 'train_loss'
 
-crop_size = args.crop_size
+# crop_size = args.crop_size
 # Define dataloader
 # Training data transform func
-train_tf = TransformData(crop=(crop_size,crop_size))
+train_tf = TransformData(crop=(args.crop_size,args.crop_size))
 train_dataset = CellDataset(args.train_folder,transform=train_tf)
 train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 if args.val_folder:
     # Val data transform func
-    val_tf = TransformData(crop=(crop_size,crop_size))
+    val_tf = TransformData(crop=(args.crop_size,args.crop_size))
     val_dataset = CellDataset(args.val_folder,transform=val_tf)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
@@ -88,7 +88,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
-
+        print(X_batch.shape, y_batch.shape)
         # Send batch to corresponding device
         X_batch = Variable(X_batch.to(device=args.device))
         y_batch = Variable(y_batch.to(device=args.device))

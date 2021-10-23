@@ -56,7 +56,7 @@ class CellDataset(Dataset):
         image = cv2.imread(self.input_path+img_name)
         mask = cv2.imread(self.mask_path+mask_name, 0)
         # print(self.input_path+img_name, mask_name)
-        print(image.shape,mask.shape)
+        # print(image.shape,mask.shape)
 
         if self.transform:
             image, mask = self.transform(image, mask)

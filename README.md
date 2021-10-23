@@ -1,15 +1,17 @@
-**UNSW COMP 9517 21T3 Project**
+# UNSW COMP9517 21T3 Project
 
-General steps for executing the code on Google Colab:
-1. Upload dataset.zip to Google drive(any questions, see https://support.google.com/drive/answer/2424368?hl=en&co=GENIE.Platform%3DDesktop)
+### Instructions for collaborating on Google Colab and Git Hub:
+
+#### General steps for executing the code on Google Colab:
+1. Upload dataset.zip to Google drive(any questions, see this [link](https://support.google.com/drive/answer/2424368?hl=en&co=GENIE.Platform%3DDesktop))
 2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU"
 3. click on Files icon on left side, click mount google drive
 4. Modify the dataset path after "!unzip " to your dataset path in Google Drive
 5. Execute cells
 
-General steps for modifying code on git and run modified code on Colab:
+#### General steps for modifying code on git and run modified code on Colab:
 1. Clone git repo to your laptop:
-    Use option A in this link: https://stackoverflow.com/questions/651038/how-do-you-clone-a-git-repository-into-a-specific-folder
+    Use option A in this [link](https://stackoverflow.com/questions/651038/how-do-you-clone-a-git-repository-into-a-specific-folder)
 
     Having trouble finding the https repo link?
         1. On the GitHub website, click on you repository of interest.

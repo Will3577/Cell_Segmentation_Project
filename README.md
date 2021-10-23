@@ -1,10 +1,10 @@
 # UNSW COMP9517 21T3 Project
 
 ### Instructions for collaborating on Google Colab and Git Hub:
-
-#### General steps for executing the code on Google Colab:
+Author: Hengrui Wang
+#### General steps for executing code on Google Colab:
 1. Upload dataset.zip to Google drive(any questions, see this [link](https://support.google.com/drive/answer/2424368?hl=en&co=GENIE.Platform%3DDesktop))
-2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU"
+2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU" (If you want to use CPU, ignore this step but make sure to change "--device" option to "cpu" when training and testing)
 3. click on Files icon on left side, click mount google drive
 4. Modify the dataset path after "!unzip " to your dataset path in Google Drive
 5. Execute cells
@@ -13,7 +13,7 @@
 1. Clone git repo to your laptop:
     Use option A in this [link](https://stackoverflow.com/questions/651038/how-do-you-clone-a-git-repository-into-a-specific-folder)
 
-    Having trouble finding the https repo link?
+    Having trouble finding the https git repo link? see following instructions:
 
     1. On the GitHub website, click on you repository of interest.
 
@@ -23,8 +23,13 @@
 
     4. Use the command described in option A: "git clone link folder-name"
 
-2. Open the folder with your favorite IDE and modify the code
-3. In order to upload modified code to git:
+2. Open the folder with your favorite IDE 
+3. Pull the git repo to see if there are any new changes
+```bash
+git pull
+```
+4. and modify the code
+5. In order to upload modified code to git:
     1. Save changes in your IDE
     2. Open terminal and move to your project folder
     3. Commit changes: (**Make sure to notify authors before changing their code**)
@@ -35,6 +40,7 @@
         ```bash
         git push
         ```
-4. On Colab notebook, run the cell contains code "!git pull" to get updated code from git hub
-5. Execute cells (e.g. "!python train.py")
+6. On Colab notebook, run the cell contains code "!git pull" to get updated code from git hub
+7. Execute cells! (e.g. "!python train.py")
+
 

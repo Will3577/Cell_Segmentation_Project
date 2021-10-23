@@ -73,7 +73,7 @@ net.to(device=args.device)
 
 
 # Define optimizer and criteration
-criterion = nn.CrossEntropyLoss()
+criterion = cross_entropy()#nn.CrossEntropyLoss()
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
@@ -104,7 +104,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # y_pred = torch.log(y_pred+1e-32)
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
-        loss = cross_entropy(y_pred.float(), y_batch[:,0,:,:].long())
+        loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
 
         loss.backward()
         optimizer.step()
@@ -137,7 +137,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             y_pred = net(X_batch)
             
             # Calculate val loss
-            loss = criterion(y_pred, y_batch)
+            loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
 
             del X_batch, y_batch
 

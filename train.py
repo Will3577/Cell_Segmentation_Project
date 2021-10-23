@@ -85,7 +85,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     net.train(True)
     # dict used to save metrics for every epoch
     log_dict = {}
-    log_dict['eopch'] = epoch
+    log_dict['epoch'] = epoch
     train_running_loss = 0.0
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]

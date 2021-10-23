@@ -68,10 +68,10 @@ if args.val_folder:
 # Define net
 net = UNet(in_channel=3,out_channel=2)
 
-from torch.nn.functional import cross_entropy
+
 
 # Define optimizer and criteration
-criterion = cross_entropy
+criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
@@ -98,9 +98,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
         # Forward + Backward + Optimize
         y_pred = net(X_batch)
-        # y_pred = torch.argmax(y_pred, dim=1)
-        y_pred = torch.log(y_pred+1e-32)
-        loss = criterion(y_pred, y_batch)
+        y_pred = torch.argmax(y_pred, dim=1)
+        # y_pred = torch.log(y_pred+1e-32)
+        loss = criterion(y_pred, y_batch.long())
         loss.backward()
         optimizer.step()
 

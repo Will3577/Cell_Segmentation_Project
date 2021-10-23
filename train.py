@@ -115,8 +115,8 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         train_running_loss += loss.item()
     
     # print statistics
-    print('[%d] train_loss: %.3f' %
-                  (epoch, train_running_loss / (i+1)))
+    # print('[%d] train_loss: %.3f' %
+    #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
 
 
@@ -142,8 +142,8 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
             val_running_loss += loss.item()
         
-        print('[%d] val_loss: %.3f' %
-                  (epoch, val_running_loss / (i+1)))
+        # print('[%d] val_loss: %.3f' %
+        #           (epoch, val_running_loss / (i+1)))
         log_dict['val_loss'] = val_running_loss / (i+1)
     print(log_dict)
     scheduler.step(log_dict[saving_target])

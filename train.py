@@ -175,15 +175,19 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 y_pred = net(X_batch)
                 y_pred = torch.argmax(y_pred, dim=1)*255
 
+                # detach from gpu
                 X_batch = X_batch.detach().cpu().numpy()
                 y_batch = y_batch.detach().cpu().numpy()
                 y_pred = y_pred.detach().cpu().numpy()
 
+
+
                 # for idx in range(y_pred.shape[0]):
                 pred = y_pred[0]
                 name = image_name[0]
-                gt = y_batch[0]
+                gt = y_batch[0][0]
                 x = X_batch[0]
+                x = np.transpose(x,(1,2,0))
                 print(pred.shape,gt.shape,x.shape)
                 cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
                 cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)

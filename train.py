@@ -54,13 +54,13 @@ else:
 # Training data transform func
 train_tf = None #TODO
 train_dataset = CellDataset(args.train_folder,transform=train_tf)
-train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=4)
+train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 if args.val_folder:
     # Val data transform func
     val_tf = None #TODO
     val_dataset = CellDataset(args.val_folder,transform=val_tf)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
 # Define net
 net = UNet(in_channel=3,out_channel=2)

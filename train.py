@@ -125,7 +125,6 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     net.train(False)
     val_running_loss = 0.0
     if args.val_folder:
-        print('Val!')
         for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
 
@@ -146,7 +145,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         print('[%d] val_loss: %.3f' %
                   (epoch, val_running_loss / (i+1)))
         log_dict['val_loss'] = val_running_loss / (i+1)
-
+    print(log_dict)
     scheduler.step(log_dict[saving_target])
 
     execution_log.append(log_dict)
@@ -156,6 +155,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         print(saving_target+' improved from '+str(min_loss)+' to '+str(log_dict[saving_target])+', saving model')
         min_loss = log_dict[saving_target]
         torch.save(net, args.checkpoint_folder+'best_model.pt')
+    print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
     torch.save(net, args.checkpoint_folder+'latest_model.pt')
 

@@ -157,7 +157,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         torch.save(net, os.path.join(args.checkpoint_folder, 'best_model.pt'))
     print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
-    torch.save(net, args.checkpoint_folder+'latest_model.pt')
+    torch.save(net, 'latest_model.pt')
 
     # Save predicted images for every k epochs
     if args.save_freq > 0:

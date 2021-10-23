@@ -76,7 +76,7 @@ for i, data in enumerate(train_loader, 0):
     loss = criterion(pred_img, y_batch)
     running_loss += loss
     print("test_loss: "+str(running_loss/(i+1)))
-    # Save predictions
+    # TODO Save predictions
 
     # Thresholding class 1 to 255, class 0 to 0
 

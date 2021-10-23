@@ -10,6 +10,7 @@ from torchvision.transforms import functional as F
 
 class TransformData:
     def __init__(self,crop=None):
+        # TODO add more operations to improve model performance
         self.crop = crop
     
     def __call__(self,image,mask):
@@ -22,18 +23,17 @@ class TransformData:
 
 class CellDataset(Dataset):
     """ Cell segmentation dataset
-
-        dataset_folder (train/val/test)
+        Folder structure:
+        Dataset_folder (train/val/test)
             |-- images (01)
                 |-- t000.tif
                 |-- t001.tif
                 |-- ...
             |-- masks (01_GT)
                 |-- SEG
-                    |-- t000.tif
-                    |-- t001.tif
+                    |-- man_seg021.tif
+                    |-- man_seg022.tif
                     |-- ...
-    
     """
 
     def __init__(self, dataset_folder, transform=None):

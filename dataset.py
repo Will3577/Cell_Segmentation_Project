@@ -61,11 +61,12 @@ class CellDataset(Dataset):
         if self.transform:
             image, mask = self.transform(image, mask)
 
-        print(image.shape,mask.shape)
+        
         # To tensor
         to_tensor = T.ToTensor()
         image = to_tensor(image)
         mask = to_tensor(mask)
+        print(image.shape,mask.shape)
 
         # To long tensor
         mask = mask.long()

@@ -68,10 +68,10 @@ if args.val_folder:
 # Define net
 net = UNet(in_channel=3,out_channel=2)
 
-
+from torch.nn.functional import cross_entropy
 
 # Define optimizer and criteration
-criterion = nn.CrossEntropyLoss()
+criterion = cross_entropy
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 

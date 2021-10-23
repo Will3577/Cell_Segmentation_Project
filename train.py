@@ -163,7 +163,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     if args.save_freq > 0:
         if epoch%args.save_freq == 0:
             # TODO
-            print("Saving predictions")
+            print("Saving sample predictions")
             for i, data in enumerate(val_loader, 0):
                 X_batch, y_batch, image_name = data
                 print(image_name)
@@ -175,9 +175,18 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 y_pred = net(X_batch)
                 y_pred = torch.argmax(y_pred, dim=1)*255
 
-                for idx in range(y_pred.shape[0]):
-                    pred = y_pred[idx]
-                
+                X_batch = X_batch.detach().cpu().numpy()
+                y_batch = y_batch.detach().cpu().numpy()
+                y_pred = y_pred.detach().cpu().numpy()
+
+                # for idx in range(y_pred.shape[0]):
+                pred = y_pred[0]
+                name = image_name[0]
+                gt = y_batch[0]
+                x = X_batch[0]
+                cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
+                cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)
+                cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)
 
                 del X_batch, y_batch
 

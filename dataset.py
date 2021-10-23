@@ -49,7 +49,7 @@ class CellDataset(Dataset):
         img_name = 't0'+mask_name.split('0')[-1]
         image = cv2.imread(self.input_path+img_name)
         mask = cv2.imread(self.mask_path+mask_name, 0)
-        print(self.input_path+img_name)
+        print(self.input_path+img_name, mask_name)
         print(image.shape,mask.shape)
 
         image, mask = self.transform(image, mask)

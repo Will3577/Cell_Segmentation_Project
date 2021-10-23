@@ -69,7 +69,7 @@ net = UNet(in_channel=3,out_channel=2)
 
 # Define optimizer and criteration
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.adam(net.parameters(), lr=args.learning_rate, momentum=args.momentum)
+optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, momentum=args.momentum)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
 min_loss = np.inf

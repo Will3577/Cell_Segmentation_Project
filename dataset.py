@@ -42,7 +42,7 @@ class CellDataset(Dataset):
             self.transform = lambda x, y: (to_tensor(x), to_tensor(y))
 
     def __len__(self):
-        return len(os.listdir(self.input_path))
+        return len(os.listdir(self.mask_path))
     
     def __getitem__(self, idx):
         mask_name = self.image_list[idx]

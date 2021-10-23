@@ -66,6 +66,7 @@ if args.val_folder:
 net = UNet(in_channel=3,out_channel=2)
 
 
+
 # Define optimizer and criteration
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.adam(net.parameters(), lr=args.learning_rate, momentum=args.momentum)

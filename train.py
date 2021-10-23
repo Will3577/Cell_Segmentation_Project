@@ -45,7 +45,7 @@ if not os.path.isdir(args.checkpoint_folder):
     os.makedirs(args.checkpoint_folder)
 
 # Decided to save best model based on val_loss or train_loss
-if args.val_dataset:
+if args.val_folder:
     saving_target = 'val_loss'
 else:
     saving_target = 'train_loss'

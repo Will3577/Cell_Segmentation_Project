@@ -28,7 +28,7 @@ parser.add_argument('--device', default='cpu', type=str)
 parser.add_argument('--epochs', default=100, type=int)
 parser.add_argument('--batch_size', default=4, type=int)
 parser.add_argument('--save_freq', default=0, type=int)
-parser.add_argument('--model_name', type=str, default='unet')
+# parser.add_argument('--model_name', type=str, default='unet')
 parser.add_argument('--learning_rate', type=float, default=1e-3)
 parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--crop_size', type=int, default=256)
@@ -52,15 +52,16 @@ else:
 
 # Define dataloader
 # Training data transform func
-train_tf = None #TODO
+train_tf = TransformData(crop=(args.crop,args.crop))
 train_dataset = CellDataset(args.train_folder,transform=train_tf)
 train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 if args.val_folder:
     # Val data transform func
-    val_tf = None #TODO
+    val_tf = TransformData(crop=(args.crop,args.crop))
     val_dataset = CellDataset(args.val_folder,transform=val_tf)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
+
 
 # Define net
 net = UNet(in_channel=3,out_channel=2)

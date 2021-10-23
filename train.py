@@ -68,7 +68,8 @@ if args.val_folder:
 
 # Define net
 net = UNet(in_channel=3,out_channel=2)
-
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+net.to(device=args.device)
 
 
 # Define optimizer and criteration
@@ -102,7 +103,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # y_pred = torch.argmax(y_pred, dim=1)
         # y_pred = torch.log(y_pred+1e-32)
         # loss = criterion(y_pred, y_batch)
-        print(y_pred.shape,y_batch.shape)
+        # print(y_pred.shape,y_batch.shape)
         loss = cross_entropy(y_pred.float(), y_batch[:,0,:,:].long())
 
         loss.backward()

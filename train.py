@@ -154,16 +154,32 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     if log_dict[saving_target]<min_loss:
         print(saving_target+' improved from '+str(min_loss)+' to '+str(log_dict[saving_target])+', saving model')
         min_loss = log_dict[saving_target]
-        torch.save(net.state_dict(), os.path.join(args.checkpoint_folder, 'best_model.pt'))
-    print(args.checkpoint_folder+'best_model.pt')
+        torch.save(net, args.checkpoint_folder+'best_model.pt')
+    # print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
-    torch.save(net, 'latest_model.pt')
+    torch.save(net, args.checkpoint_folder+'latest_model.pt')
 
     # Save predicted images for every k epochs
     if args.save_freq > 0:
         if epoch%args.save_freq == 0:
             # TODO
             print("Saving predictions")
+            for i, data in enumerate(val_loader, 0):
+                X_batch, y_batch, image_name = data
+                print(image_name)
+                # Send batch to corresponding device
+                X_batch = Variable(X_batch.to(device=args.device))
+                y_batch = Variable(y_batch.to(device=args.device))
+
+                # Predict on val data
+                y_pred = net(X_batch)
+                y_pred = torch.argmax(y_pred, dim=1)*255
+
+                for idx in range(y_pred.shape[0]):
+                    pred = y_pred[idx]
+                
+
+                del X_batch, y_batch
 
 # Save log as .csv file for plot generation in future
 keys = execution_log[0].keys()

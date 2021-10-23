@@ -154,7 +154,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     if log_dict[saving_target]<min_loss:
         print(saving_target+' improved from '+str(min_loss)+' to '+str(log_dict[saving_target])+', saving model')
         min_loss = log_dict[saving_target]
-        torch.save(net, os.path.join(args.checkpoint_folder, 'best_model.pt'))
+        torch.save(net.state_dict(), os.path.join(args.checkpoint_folder, 'best_model.pt'))
     print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
     torch.save(net, 'latest_model.pt')

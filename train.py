@@ -30,7 +30,7 @@ parser.add_argument('--batch_size', default=4, type=int)
 parser.add_argument('--save_freq', default=0, type=int)
 parser.add_argument('--model_name', type=str, default='unet')
 parser.add_argument('--learning_rate', type=float, default=1e-3)
-parser.add_argument('--momentum', type=float, default=0.9)
+parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--crop_size', type=int, default=256)
 args = parser.parse_args()
 
@@ -69,7 +69,7 @@ net = UNet(in_channel=3,out_channel=2)
 
 # Define optimizer and criteration
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, momentum=args.momentum)
+optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
 min_loss = np.inf

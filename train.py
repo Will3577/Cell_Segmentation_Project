@@ -90,7 +90,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
-        print(X_batch.shape, y_batch.shape)
+        # print(X_batch.shape, y_batch.shape)
         # Send batch to corresponding device
         X_batch = Variable(X_batch.to(device=args.device))
         y_batch = Variable(y_batch.to(device=args.device))
@@ -124,9 +124,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     # Disable training first
     net.train(False)
     val_running_loss = 0.0
-    if args.val_dataset:
+    if args.val_folder:
         print('Val!')
-        for i, data in enumerate(train_loader, 0):
+        for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
 
             # Send batch to corresponding device

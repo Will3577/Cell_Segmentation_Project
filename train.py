@@ -166,7 +166,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             print("Saving sample predictions")
             for i, data in enumerate(val_loader, 0):
                 X_batch, y_batch, image_name = data
-                print(image_name)
+                # print(image_name)
                 # Send batch to corresponding device
                 X_batch = Variable(X_batch.to(device=args.device))
                 y_batch = Variable(y_batch.to(device=args.device))
@@ -186,7 +186,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 gt = y_batch[0][0]
                 x = X_batch[0]
                 x = np.transpose(x,(1,2,0))
-                print(pred.shape,gt.shape,x.shape)
+                # print(pred.shape,gt.shape,x.shape)
                 cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
                 cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)
                 cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)

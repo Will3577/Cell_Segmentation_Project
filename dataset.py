@@ -66,7 +66,7 @@ class CellDataset(Dataset):
         to_tensor = T.ToTensor()
         image = to_tensor(image)
         mask = to_tensor(mask)
-        print(image.shape,mask.shape)
+        # print(image.shape,mask.shape)
 
         # To long tensor
         mask = mask.long()

@@ -51,7 +51,7 @@ if args.val_folder:
 else:
     saving_target = 'train_loss'
 
-crop_size = args.crop
+crop_size = args.crop_size
 # Define dataloader
 # Training data transform func
 train_tf = TransformData(crop=(crop_size,crop_size))

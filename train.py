@@ -12,6 +12,7 @@ import numpy as np
 import torch.optim as optim
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.functional import cross_entropy
 
 from argparse import ArgumentParser
 from torch.autograd import Variable
@@ -98,10 +99,10 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
         # Forward + Backward + Optimize
         y_pred = net(X_batch)
-        y_pred = torch.argmax(y_pred, dim=1)
+        # y_pred = torch.argmax(y_pred, dim=1)
         # y_pred = torch.log(y_pred+1e-32)
         # loss = criterion(y_pred, y_batch)
-        loss = F.cross_entropy(y_pred, y_batch)
+        loss = cross_entropy(y_pred, y_batch)
 
         loss.backward()
         optimizer.step()

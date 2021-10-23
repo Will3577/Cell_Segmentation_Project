@@ -23,8 +23,14 @@
 3. In order to upload modified code to git:
     1. Save changes in your IDE
     2. Open terminal and move to your project folder
-    3. Execute "git commit -m "commit message"" to commit changes
-    4. Execute "git push" to push changes to git hub
+    3. Commit changes: (**Make sure to notify authors before changing their code**)
+        ```bash
+        git commit -m "commit message"
+        ```
+    4. Push changes to git hub
+        ```bash
+        git push
+        ```
 4. On Colab notebook, run the cell contains code "!git pull" to get updated code from git hub
 5. Execute cells (e.g. "!python train.py")
 

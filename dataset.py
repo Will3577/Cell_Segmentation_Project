@@ -69,7 +69,7 @@ class CellDataset(Dataset):
         print(image.shape,mask.shape)
 
         # To long tensor
-        # mask = mask.long()
+        mask = mask.long()
 
         return image, mask, img_name
 

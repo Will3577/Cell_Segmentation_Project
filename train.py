@@ -180,8 +180,6 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 y_batch = y_batch.detach().cpu().numpy()
                 y_pred = y_pred.detach().cpu().numpy()
 
-
-
                 # for idx in range(y_pred.shape[0]):
                 pred = y_pred[0]
                 name = image_name[0]
@@ -194,6 +192,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)
 
                 del X_batch, y_batch
+                break
 
 # Save log as .csv file for plot generation in future
 keys = execution_log[0].keys()

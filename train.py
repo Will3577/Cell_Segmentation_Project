@@ -184,6 +184,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 name = image_name[0]
                 gt = y_batch[0]
                 x = X_batch[0]
+                print(pred.shape,gt.shape,x.shape)
                 cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
                 cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)
                 cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)

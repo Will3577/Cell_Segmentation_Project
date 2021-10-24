@@ -35,6 +35,7 @@ def remove_border_object(img):
     
     return img_no_border
 
+# Image needs to be in cv2 grayscale.
 def binarize_and_optimize_image(img):
 
     thresh = cv2.threshold(img, 129, 255, cv2.THRESH_BINARY)[1]

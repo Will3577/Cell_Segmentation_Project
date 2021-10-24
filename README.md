@@ -62,7 +62,7 @@ git pull
     git checkout branch1
     # pull all new changes
     git pull 
-    # merge two changes
+    # merge two branches
     git merge branch2
     # push the merged branch2 to result
     git push

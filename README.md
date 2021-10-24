@@ -1,6 +1,6 @@
 # UNSW COMP9517 21T3 Project
 
-### Instructions for collaborating on Google Colab and Git Hub:
+### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang
 
 #### General steps for executing code on Google Colab:

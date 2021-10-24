@@ -8,9 +8,7 @@ Author: Hengrui Wang
 2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU" 
 (If you want to use CPU, ignore this step but make sure to change "--device" option to "cpu" when training and testing)
 
-3. click on Files icon on left side, click mount google drive
-4. Modify the dataset path after "!unzip " to your dataset path in Google Drive
-5. Execute cells
+3. Execute cells
 
 #### General steps for modifying code on git and run modified code on Colab:
 1. Clone git repo to your laptop:

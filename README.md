@@ -28,9 +28,9 @@ Author: Hengrui Wang
 
 2. Open the folder with your favorite IDE 
 3. Pull the git repo to see if there are any new changes
-```bash
-git pull
-```
+    ```bash
+    git pull
+    ```
 4. and modify the code
 5. In order to upload modified code to git:
     1. Save changes in your IDE

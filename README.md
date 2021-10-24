@@ -44,4 +44,26 @@ git pull
 6. On Colab notebook, run the cell contains code "!git pull" to get updated code from git hub
 7. Execute cells! (e.g. "!python train.py")
 
-
+#### Notes on useful git commands:
+1. Create branch and checkout to that branch:
+    ```bash
+    # create new branch on git
+    git checkout -b branch_name
+    # move to branch
+    git checkout branch_name
+    ```
+2. Merge **branch2** into **branch1**[ref_link](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch):
+    ```bash
+    # move to branch2
+    git checkout branch2
+    # pull all new changes
+    git pull 
+    # move to branch1
+    git checkout branch1
+    # pull all new changes
+    git pull 
+    # merge two changes
+    git merge branch2
+    # push the merged branch2 to result
+    git push
+    ```

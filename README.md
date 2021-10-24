@@ -53,6 +53,9 @@ Author: Hengrui Wang
     git checkout -b branch_name
     # move to branch
     git checkout branch_name
+    # commit and push to git
+    git commit -m "commit_message"
+    git push origin branch_name
     ```
 2. Merge **branch2** into **branch1**, [ref_link](https://stackoverflow.com/questions/37709298/how-to-get-changes-from-another-branch):
     ```bash

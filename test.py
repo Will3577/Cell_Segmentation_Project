@@ -68,7 +68,7 @@ for i, data in enumerate(train_loader, 0):
     y_batch = Variable(y_batch.to(device=args.device))
 
     y_pred = net(X_batch)
-
+    #(10,3,256,256)
     # Compose prediction batch into a single image
     pred_img = compose_pred(y_pred,y_batch[0].shape)
 

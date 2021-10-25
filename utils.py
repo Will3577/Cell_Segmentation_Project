@@ -48,7 +48,7 @@ def binarize_and_optimize_image(img):
 
 from scipy import ndimage
 
-def extract_boundary(mask,show_result=False):
+def extract_boundary(mask:np.ndarray,show_result:bool=False) -> np.ndarray:
     '''
     Args:
         mask: 2d numpy array, 255 for foreground, 0 for background

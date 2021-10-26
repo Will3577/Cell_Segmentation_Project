@@ -45,7 +45,7 @@ Author: Hengrui Wang
     ```bash
     git pull
     ```
-4. and modify the code
+4. Modify code
 5. In order to upload modified code to git:
     1. Save changes in your IDE
     2. Open terminal and move to your project folder

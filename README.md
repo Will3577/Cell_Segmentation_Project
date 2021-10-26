@@ -24,7 +24,7 @@ Author: Hengrui Wang
 2. Open notebook on Google Colab, click on "Runtime" at top tool bar, select "Change runtime type", select "GPU" 
 (If you want to use CPU, ignore this step but make sure to change "--device" option to "cpu" when training and testing)
 
-3. Execute cells
+3. Run cells
 
 #### General steps for modifying code on git and run modified code on Colab:
 1. Clone git repo to your laptop:
@@ -58,7 +58,7 @@ Author: Hengrui Wang
         git push
         ```
 6. On Colab notebook, run the cell contains code "!git pull" to get updated code from git hub
-7. Execute cells! (e.g. "!python train.py")
+7. Run cells (e.g. "!python train.py")
 
 #### Notes on useful git commands:
 1. Create branch and checkout to that branch:

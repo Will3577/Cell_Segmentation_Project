@@ -1,7 +1,7 @@
 # UNSW COMP9517 21T3 Project
 
 
-### List of functions required to complete the task
+### List of functions required to complete the task(completed functions in utils.py)
 - [ ] 1. Generate pseudo masks(png, 255 for cells, 0 for background) using watershed algorithm and save to git hub for experiment on other functions
 - [ ] 2. Process tif images to png format, intensity range: (0,255)
 - [x] 3. Write function that remove cells on the image boundary

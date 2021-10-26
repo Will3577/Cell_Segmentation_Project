@@ -9,7 +9,7 @@
 - [ ] 5. Write function that calculate the mean size of cells by giving a 2d np.array mask
 - [x] 6. Write function that extract contours of cells from mask
 - [ ] 7. Extract tracking information from TRA images. prob output: Image and dict(key:unique label, value:central coord on image)
-- [ ] 8. Calculate the average displacement of all cells between two masks
+- [ ] 8. Write function that calculate the average displacement of all cells between two masks
 - [ ] 9. Write function that convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
 - [ ] 10. Cell segmentation algorithm
 - [ ] 11. Tracking algorithm

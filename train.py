@@ -45,6 +45,9 @@ torch.cuda.manual_seed(seed)
 if not os.path.isdir(args.checkpoint_folder):
     os.makedirs(args.checkpoint_folder)
 
+if not os.path.isdir(args.checkpoint_folder+'pred'):
+    os.makedirs(args.checkpoint_folder+'pred')
+
 # Decided to save best model based on val_loss or train_loss
 if args.val_folder:
     saving_target = 'val_loss'

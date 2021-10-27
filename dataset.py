@@ -53,7 +53,7 @@ class CellDataset(Dataset):
     def __getitem__(self, idx):
         mask_name = self.image_list[idx]
         img_name = mask_name.split('.')[0]+'.png'#t'+mask_name[-7:]
-        image = cv2.imread(self.input_path+img_name, 0)
+        image = cv2.imread(self.input_path+img_name)
         mask = cv2.imread(self.mask_path+mask_name, 0)
         print(self.input_path+img_name, mask_name)
         print(image.shape,mask.shape)

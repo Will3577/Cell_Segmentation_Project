@@ -42,11 +42,7 @@ class CellDataset(Dataset):
         self.mask_path = dataset_folder+"masks/"
         self.image_list = os.listdir(self.mask_path)
 
-        if transform:
-            self.transform = transform
-        else:
-            to_tensor = T.ToTensor()
-            self.transform = lambda x, y: (to_tensor(x), to_tensor(y))
+        self.transform = transform
 
     def __len__(self):
         return len(os.listdir(self.mask_path))
@@ -65,8 +61,8 @@ class CellDataset(Dataset):
         if self.transform:
             image, mask = self.transform(image, mask)
         
-        cv2.imwrite('/content/test_img.png',image)
-        cv2.imwrite('/content/test_mask.png',mask)
+        image.save('/content/test_img.png')
+        mask.save('/content/test_mask.png')
 
         
         # To tensor

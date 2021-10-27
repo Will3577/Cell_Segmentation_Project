@@ -38,7 +38,7 @@ class CellDataset(Dataset):
 
     def __init__(self, dataset_folder, transform=None):
         self.input_path = dataset_folder+"images/"
-        self.mask_path = dataset_folder+"masks/SEG/"
+        self.mask_path = dataset_folder+"masks/"
         self.image_list = os.listdir(self.mask_path)
 
         if transform:

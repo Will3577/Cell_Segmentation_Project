@@ -1,6 +1,6 @@
 # UNSW COMP9517 21T3 Project
 
-- [ ] #### Task 1: Dataset Processing
+#### Task 1: Dataset Processing
 #### Task 2: Cell Segmentation(ml)
 #### Task 3: Cell Segmentation(alg)
 #### Task 4: Cell Tracking(alg)

@@ -186,7 +186,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 gt = y_batch[0][0]*255
                 x = X_batch[0]*255
                 x = np.transpose(x,(1,2,0))
-                print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
+                # print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
                 cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
                 cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)
                 cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)

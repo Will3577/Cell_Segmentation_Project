@@ -66,7 +66,7 @@ if args.val_folder:
 
 
 # Define net
-net = UNet(in_channel=3,out_channel=2)
+net = UNet(in_channel=1,out_channel=2)
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)
 

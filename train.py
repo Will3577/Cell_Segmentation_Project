@@ -44,9 +44,10 @@ torch.cuda.manual_seed(seed)
 # Check and create checkpoint path
 if not os.path.isdir(args.checkpoint_folder):
     os.makedirs(args.checkpoint_folder)
-
-if not os.path.isdir(args.checkpoint_folder+'pred'):
-    os.makedirs(args.checkpoint_folder+'pred')
+    
+pred_folder = 'pred/'
+if not os.path.isdir(args.checkpoint_folder+pred_folder):
+    os.makedirs(args.checkpoint_folder+pred_folder)
 
 # Decided to save best model based on val_loss or train_loss
 if args.val_folder:
@@ -190,9 +191,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 x = X_batch[0]*255
                 x = np.transpose(x,(1,2,0))
                 # print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
-                cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)
-                cv2.imwrite(args.checkpoint_folder+'gt_'+name,gt)
-                cv2.imwrite(args.checkpoint_folder+'patch_'+name,x)
+                cv2.imwrite(args.checkpoint_folder+pred_folder+'pred_'+name,pred)
+                cv2.imwrite(args.checkpoint_folder+pred_folder+'gt_'+name,gt)
+                cv2.imwrite(args.checkpoint_folder+pred_folder+'patch_'+name,x)
 
                 del X_batch, y_batch
                 break

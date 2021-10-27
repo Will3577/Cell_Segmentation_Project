@@ -167,7 +167,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             # TODO
             # print("Saving sample predictions")
             net.train(False)
-            target_folder = args.checkpoint_folder+pred_folder+epoch+'/'
+            target_folder = args.checkpoint_folder+pred_folder+str(epoch)+'/'
             mk_dirs(target_folder)
             for i, data in enumerate(val_loader, 0):
                 X_batch, y_batch, image_name = data

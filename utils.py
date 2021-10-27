@@ -4,6 +4,11 @@ from skimage.morphology import reconstruction
 from skimage.feature import peak_local_max
 from scipy import ndimage as ndi
 import matplotlib.pyplot as plt 
+import os
+
+def mk_dirs(path):
+  if not os.path.isdir(path):
+      os.makedirs(path)
 
 def fill_small_holes(thresh):
     kernel = np.ones((3, 3), dtype=np.uint8)

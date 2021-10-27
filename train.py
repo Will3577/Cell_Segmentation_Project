@@ -18,6 +18,7 @@ from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
 from dataset import *
+from utils import *
 from unet.unet import UNet
 
 parser = ArgumentParser()
@@ -42,12 +43,10 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 
 # Check and create checkpoint path
-if not os.path.isdir(args.checkpoint_folder):
-    os.makedirs(args.checkpoint_folder)
-    
+mk_dirs(args.checkpoint_folder)
+
 pred_folder = 'pred/'
-if not os.path.isdir(args.checkpoint_folder+pred_folder):
-    os.makedirs(args.checkpoint_folder+pred_folder)
+mk_dirs(args.checkpoint_folder+pred_folder)
 
 # Decided to save best model based on val_loss or train_loss
 if args.val_folder:
@@ -166,8 +165,10 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     if args.save_freq > 0:
         if epoch%args.save_freq == 0:
             # TODO
-            print("Saving sample predictions")
+            # print("Saving sample predictions")
             net.train(False)
+            target_folder = args.checkpoint_folder+pred_folder+epoch+'/'
+            mk_dirs(target_folder)
             for i, data in enumerate(val_loader, 0):
                 X_batch, y_batch, image_name = data
                 # print(image_name)
@@ -191,9 +192,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 x = X_batch[0]*255
                 x = np.transpose(x,(1,2,0))
                 # print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
-                cv2.imwrite(args.checkpoint_folder+pred_folder+'pred_'+name,pred)
-                cv2.imwrite(args.checkpoint_folder+pred_folder+'gt_'+name,gt)
-                cv2.imwrite(args.checkpoint_folder+pred_folder+'patch_'+name,x)
+                cv2.imwrite(target_folder+'pred_'+name,pred)
+                cv2.imwrite(target_folder+'gt_'+name,gt)
+                cv2.imwrite(target_folder+'patch_'+name,x)
 
                 del X_batch, y_batch
                 break

@@ -58,14 +58,15 @@ class CellDataset(Dataset):
         mask = cv2.imread(self.mask_path+mask_name, 0)
         # print(self.input_path+img_name, mask_name)
         # print(image.shape,mask.shape,np.amax(image))
-        cv2.imwrite('/content/test_img.png',image)
-        cv2.imwrite('/content/test_mask.png',mask)
+        # cv2.imwrite('/content/test_img.png',image)
+        # cv2.imwrite('/content/test_mask.png',mask)
         # print(image.shape,mask.shape)
 
         if self.transform:
             image, mask = self.transform(image, mask)
         
-
+        cv2.imwrite('/content/test_img.png',image)
+        cv2.imwrite('/content/test_mask.png',mask)
 
         
         # To tensor

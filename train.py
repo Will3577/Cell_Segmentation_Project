@@ -183,8 +183,8 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
                 # for idx in range(y_pred.shape[0]):
                 pred = y_pred[0]
                 name = image_name[0]
-                gt = y_batch[0][0]
-                x = X_batch[0]
+                gt = y_batch[0][0]*255
+                x = X_batch[0]*255
                 x = np.transpose(x,(1,2,0))
                 print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
                 cv2.imwrite(args.checkpoint_folder+'pred_'+name,pred)

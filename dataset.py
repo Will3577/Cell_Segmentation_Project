@@ -3,6 +3,7 @@
 
 import os
 import cv2
+import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms as T
 from torchvision import utils
@@ -56,7 +57,7 @@ class CellDataset(Dataset):
         image = cv2.imread(self.input_path+img_name)
         mask = cv2.imread(self.mask_path+mask_name, 0)
         print(self.input_path+img_name, mask_name)
-        print(image.shape,mask.shape)
+        print(image.shape,mask.shape,np.amax(image))
         cv2.imwrite('/content/test_img.png',image)
         cv2.imwrite('/content/test_mask.png',mask)
         # print(image.shape,mask.shape)

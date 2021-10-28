@@ -54,8 +54,8 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     print(num_H,num_W)
     for idx_h in range(num_H):
         for idx_w in range(num_W):
-            output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[num_H*idx_h+idx_w]
-            print(num_H*idx_h+idx_w)
+            output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[num_W*idx_h+idx_w]
+            print(num_W*idx_h+idx_w)
         # i+=1
     output = output[:,height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding]
     output = torch.tensor(output)

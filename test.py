@@ -41,8 +41,8 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     # pred (15,256,256)
     # target (1,700,1100)
     pred = pred.detach().cpu().numpy()
-    height_padding /= 2
-    width_padding /= 2
+    height_padding //= 2
+    width_padding //= 2
     print(pred.shape,pseudo_shape,height_padding,width_padding)
     patch_size = pred[0].shape[1]
     n_batches = pred.shape[0]

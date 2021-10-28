@@ -21,6 +21,7 @@
 - [ ] 8. Write function to calculate the average displacement of all cells between two masks
 - [ ] 9. Write function to convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
 - [ ] 8. Write function to evaluate the predicted mask and ground truth mask
+- [ ] 9. Write function to combine sequence of images into .gif for better visualization
 
 
 

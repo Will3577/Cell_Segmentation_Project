@@ -48,13 +48,13 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
         for idx_w in range(num_W):
             output[idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size,:] = pred[(idx_h+1)*(idx_w+1)]
     output = output[height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding,:]
-    
+
     print("output shape: ",output.shape)
     return output
 
 parser = ArgumentParser()
 parser.add_argument('--test_folder', required=True, type=str)
-parser.add_argument('--results_path', required=True, type=str)
+parser.add_argument('--save_path', required=True, type=str)
 parser.add_argument('--weights', required=True, type=str)
 parser.add_argument('--patch_size', required=True, type=int)
 parser.add_argument('--device', default='cpu', type=str)
@@ -68,8 +68,8 @@ torch.manual_seed(seed)
 torch.cuda.manual_seed(seed)
 
 # Check and create checkpoint path
-if not os.path.isdir(args.results_path):
-    os.makedirs(args.results_path)
+if not os.path.isdir(args.save_path):
+    os.makedirs(args.save_path)
 
 # Load trained model
 net = torch.load(args.weights)

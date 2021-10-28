@@ -21,7 +21,7 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
     # crop = 256
     input_batch = input_batch.detach().cpu().numpy()
     print(input_batch.shape)
-    input_batch = np.transpose(input_batch,(1,2,0))
+    input_batch = np.transpose(input_batch[0],(1,2,0))
     im_H = input_batch.shape[0]
     im_W = input_batch.shape[1]
     height_padding = (math.ceil(im_H/patch_size)*patch_size-im_H)//2

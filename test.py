@@ -126,7 +126,7 @@ for i, data in enumerate(test_loader, 0):
     pred_img = np.transpose(pred_img,(1,2,0))
     print(pred_img.shape,image_name)
 
-    cv2.imwrite(args.save_path+image_name, pred_img)
+    cv2.imwrite(args.save_path+image_name[0], pred_img)
 
 
 

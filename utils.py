@@ -5,6 +5,8 @@ from skimage.feature import peak_local_max
 from scipy import ndimage as ndi
 import matplotlib.pyplot as plt 
 import os
+import imageio
+import gdal
 
 def mk_dirs(path):
   if not os.path.isdir(path):
@@ -55,6 +57,8 @@ from scipy import ndimage
 
 def extract_boundary(mask:np.ndarray,show_result:bool=False) -> np.ndarray:
     '''
+    Extract the outer cell boundary from imput mask
+
     Args:
         mask: 2d numpy array, 255 for foreground, 0 for background
         show_result: verbose to print image
@@ -71,6 +75,50 @@ def extract_boundary(mask:np.ndarray,show_result:bool=False) -> np.ndarray:
         plt.imshow(output,cmap='gray')
         plt.show()
     return output
+
+# img_folder = '/content/Sequences_p/pseudo_masks/01/'
+# des = '/content/test.gif'
+def to_gif(img_folder:str, des:str):
+    '''
+    Warning: This function may only work on Colab
+    
+    Args:
+        img_folder: folder that contain images to be compressed to gif 
+        des: destination for .gif file
+    Output:
+        saved .gif file on destination
+    '''
+    filenames = sorted(os.listdir(img_folder))
+    # print(filenames)
+    images = []
+
+    for filename in filenames:
+        if filename.split('.')[-1]=='tif':
+          images.append(gdal.Open(img_folder+filename).ReadAsArray())
+        else:
+          images.append(imageio.imread(img_folder+filename))
+    imageio.mimsave(des, images)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # In case you want to test functions, 
 # run !python utils.py and modify bellow code to get result

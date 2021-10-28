@@ -11,8 +11,8 @@
 
 ### List of utility functions required to complete above tasks(completed functions in utils.py)
 
-- [ ] 1. Generate pseudo masks(png, 255 for cells, 0 for background) using watershed algorithm and save to git hub for experiment on other functions
-- [ ] 2. Process tif images to png format, intensity range: (0,255)
+- [x] 1. Generate pseudo masks(png, 255 for cells, 0 for background) using watershed algorithm and save to git hub for experiment on other functions
+- [x] 2. Process tif images to png format, intensity range: (0,255)
 - [x] 3. Write function to remove cells on the image boundary
 - [ ] 4. Write function to read 2d np.array mask(255 for cell, 0 for background) as input and output a list of central points for all cells in the mask
 - [ ] 5. Write function to calculate the mean size of cells by giving a 2d np.array mask

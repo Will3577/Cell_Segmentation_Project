@@ -20,20 +20,20 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
     # crop_size = (args.crop_size,args.crop_size)
     # crop = 256
     input_batch = input_batch.detach().cpu().numpy()
-    print(input_batch.shape)
+    # print(input_batch.shape)
     input_batch = np.transpose(input_batch[0],(1,2,0))
     im_H = input_batch.shape[0]
     im_W = input_batch.shape[1]
     height_padding = (math.ceil(im_H/patch_size)*patch_size-im_H)//2
     width_padding = (math.ceil(im_W/patch_size)*patch_size-im_W)//2
-    print(im_H,im_W,height_padding,width_padding)
+    # print(im_H,im_W,height_padding,width_padding)
     image = cv2.copyMakeBorder(input_batch,height_padding,height_padding,width_padding,width_padding,cv2.BORDER_REFLECT)
-    print(image.shape)
+    # print(image.shape)
 
     tiles = np.array([image[x:x+patch_size,y:y+patch_size] for x in range(0,image.shape[0],patch_size) for y in range(0,image.shape[1],patch_size)])
     tiles = torch.tensor(tiles)
     tiles = tiles[:,None,:,:]
-    print(tiles.shape,image.shape)
+    # print(tiles.shape,image.shape)
 
     return tiles, image.shape, height_padding, width_padding
 
@@ -41,9 +41,8 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     # pred (15,256,256)
     # target (1,700,1100)
     pred = pred.detach().cpu().numpy()
-    # height_padding //= 2
-    # width_padding //= 2
-    print(pred.shape,pseudo_shape,height_padding,width_padding)
+
+    # print(pred.shape,pseudo_shape,height_padding,width_padding)
     patch_size = pred[0].shape[1]
     n_batches = pred.shape[0]
     output = np.zeros((2,pseudo_shape[0],pseudo_shape[1]))
@@ -51,16 +50,16 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     num_W = int(math.ceil(pseudo_shape[1]/patch_size))
     assert num_H*num_W == n_batches
     # i = 0
-    print(num_H,num_W)
+    # print(num_H,num_W)
     for idx_h in range(num_H):
         for idx_w in range(num_W):
             output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[num_W*idx_h+idx_w]
-            print(num_W*idx_h+idx_w)
+            # print(num_W*idx_h+idx_w)
         # i+=1
     res = output[:,height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding]
     res = torch.tensor(res)
     res = res[None,:,:,:]
-    print("output shape: ",res.shape)
+    # print("output shape: ",res.shape)
     return res
 
 parser = ArgumentParser()
@@ -118,13 +117,12 @@ for i, data in enumerate(test_loader, 0):
 
     running_loss += loss
     print("test_loss: "+str(running_loss/(i+1)))
-    # TODO Save predictions
 
     # Thresholding class 1 to 255, class 0 to 0
     pred_img = torch.argmax(pred_img, dim=1)*255
     pred_img = pred_img.detach().cpu().numpy()
     pred_img = np.transpose(pred_img,(1,2,0))
-    print(pred_img.shape,image_name)
+    # print(pred_img.shape,image_name)
 
     cv2.imwrite(args.save_path+image_name[0], pred_img)
 

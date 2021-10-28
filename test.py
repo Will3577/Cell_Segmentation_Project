@@ -59,7 +59,7 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
         # i+=1
     res = output[:,height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding]
     res = torch.tensor(res)
-    # res = res[None,:,:,:]
+    res = res[None,:,:,:]
     print("output shape: ",res.shape)
     return res
 

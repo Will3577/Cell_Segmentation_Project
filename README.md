@@ -1,6 +1,5 @@
 # UNSW COMP9517 21T3 Project
-<!-- ![til](./readme_imgs/02_pred.gif?v=4&s=200) -->
-<img src="./readme_imgs/02_pred.gif" width="550" height="350">
+
 ### Sub tasks for completing project
 - [x] Task 1: Dataset Processing
 - [x] Task 2: Cell Segmentation(ml)
@@ -24,7 +23,7 @@
 - [ ] 8. Write function to evaluate the predicted mask and ground truth mask
 - [ ] 9. Write function to combine sequence of images into .gif for better visualization
 
-
+<img src="./readme_imgs/02_pred.gif" width="550" height="350">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

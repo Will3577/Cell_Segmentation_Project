@@ -20,6 +20,7 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
     # crop_size = (args.crop_size,args.crop_size)
     # crop = 256
     input_batch = input_batch.detach().cpu().numpy()
+    print(input_batch.shape)
     input_batch = np.transpose(input_batch,(1,2,0))
     im_H = input_batch.shape[0]
     im_W = input_batch.shape[1]

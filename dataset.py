@@ -61,8 +61,8 @@ class CellDataset(Dataset):
         if self.transform:
             image, mask = self.transform(image, mask)
         
-        image.save('/content/test_img.png')
-        mask.save('/content/test_mask.png')
+        # image.save('/content/test_img.png')
+        # mask.save('/content/test_mask.png')
 
         
         # To tensor

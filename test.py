@@ -10,26 +10,51 @@ import torch.nn as nn
 from torchvision.transforms import functional as F
 from torch.utils.data import DataLoader
 from torch.autograd import Variable
-from skimage.util.shape import view_as_windows
+# from skimage.util.shape import view_as_windows
 from argparse import ArgumentParser
 from functools import partial
 
 from dataset import *
 
-def crop_batch(input_batch, patch_size):
-    crop_size = (args.crop_size,args.crop_size)
+def crop_batch(input_batch: torch.tensor, patch_size: int):
+    # crop_size = (args.crop_size,args.crop_size)
+    # crop = 256
+    input_batch = input_batch.detach().cpu().numpy()
+    input_batch = np.transpose(input_batch,(1,2,0))
+    im_H = input_batch.shape[0]
+    im_W = input_batch.shape[1]
+    height_padding = (math.ceil(im_H/patch_size)*patch_size-im_H)//2
+    width_padding = (math.ceil(im_W/patch_size)*patch_size-im_W)//2
+    print(im_H,im_W,height_padding,width_padding)
+    image = cv2.copyMakeBorder(input_batch,height_padding,height_padding,width_padding,width_padding,cv2.BORDER_REFLECT)
+    print(image.shape)
 
-    return input_batch
+    tiles = np.array([image[x:x+patch_size,y:y+patch_size] for x in range(0,image.shape[0],patch_size) for y in range(0,image.shape[1],patch_size)])
+    tiles = torch.tensor(tiles)
+    print(tiles.shape,image.shape)
 
-def compose_pred(pred, img_shape):
-    batch_size = pred[0].shape
+    return tiles, image.shape,height_padding,width_padding
 
-    return pred
+def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, width_padding: int):
+    # pred (15,256,256)
+    # target (1,700,1100)
+    patch_size = pred[0].shape[0]
+    n_batches = pred[0]
+    output = np.zeros(pseudo_shape[0],pseudo_shape[1],2)
+    num_H = int(math.ceil(pseudo_shape[0]/patch_size))
+    num_W = int(math.ceil(pseudo_shape[1]/patch_size))
+    assert num_H*num_W == n_batches
+    for idx_h in range(num_H):
+        for idx_w in range(num_W):
+            output[idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size,:] = pred[(idx_h+1)*(idx_w+1)]
+    output = output[height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding,:]
+    print("output shape: ",output.shape)
+    return output
 
 parser = ArgumentParser()
 parser.add_argument('--test_folder', required=True, type=str)
 parser.add_argument('--results_path', required=True, type=str)
-parser.add_argument('--model_path', required=True, type=str)
+parser.add_argument('--weights', required=True, type=str)
 parser.add_argument('--patch_size', required=True, type=int)
 parser.add_argument('--device', default='cpu', type=str)
 # parser.add_argument('--threshold', default=0.5, type=float)
@@ -46,7 +71,8 @@ if not os.path.isdir(args.results_path):
     os.makedirs(args.results_path)
 
 # Load trained model
-net = torch.load(args.model_path)
+net = torch.load(args.weights)
+net.to(device=args.device)
 net.train(False)
 
 criterion = nn.CrossEntropyLoss()

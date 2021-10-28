@@ -59,7 +59,7 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
         # i+=1
     res = output[:,height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding]
     res = torch.tensor(res)
-    res = res[None,:,:,:]
+    # res = res[None,:,:,:]
     print("output shape: ",res.shape)
     return res
 
@@ -111,7 +111,7 @@ for i, data in enumerate(train_loader, 0):
     pred_img = compose_pred(y_pred,pseudo_shape,height_padding,width_padding)
     pred_img = Variable(pred_img.to(device=args.device))
     # Calculate test loss and report
-    loss = criterion(pred_img, y_batch)
+    loss = criterion(pred_img, y_batch[:,0,:,:])
 
     # del X_batch,y_batch,pred_img
 

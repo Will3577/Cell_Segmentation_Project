@@ -1,5 +1,5 @@
 # UNSW COMP9517 21T3 Project
-![til](./readme_imgs/02_pred.gif){:height="50%" width="50%"}
+![til](./readme_imgs/02_pred.gif?v=4&s=200)
 ### Sub tasks for completing project
 - [x] Task 1: Dataset Processing
 - [x] Task 2: Cell Segmentation(ml)

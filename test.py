@@ -34,7 +34,7 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
     tiles = torch.tensor(tiles)
     print(tiles.shape,image.shape)
 
-    return tiles, image.shape,height_padding,width_padding
+    return tiles, image.shape, height_padding, width_padding
 
 def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, width_padding: int):
     # pred (15,256,256)
@@ -90,7 +90,7 @@ for i, data in enumerate(train_loader, 0):
     X_batch, y_batch, image_name = data
 
     # crop test image into batches into size of (patch_size x patch_size)
-    X_batch = crop_batch(X_batch,args.patch_size)
+    X_batch,pseudo_shape,height_padding,width_padding = crop_batch(X_batch,args.patch_size)
 
     X_batch = Variable(X_batch.to(device=args.device))
     y_batch = Variable(y_batch.to(device=args.device))
@@ -98,7 +98,7 @@ for i, data in enumerate(train_loader, 0):
     y_pred = net(X_batch)
     #(10,3,256,256)
     # Compose prediction batch into a single image
-    pred_img = compose_pred(y_pred,y_batch[0].shape)
+    pred_img = compose_pred(y_pred,pseudo_shape,height_padding,width_padding)
 
     # Calculate test loss and report
     loss = criterion(pred_img, y_batch)

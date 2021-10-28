@@ -111,7 +111,7 @@ for i, data in enumerate(train_loader, 0):
     pred_img = compose_pred(y_pred,pseudo_shape,height_padding,width_padding)
     pred_img = Variable(pred_img.to(device=args.device))
     # Calculate test loss and report
-    loss = criterion(pred_img, y_batch[:,0,:,:])
+    loss = criterion(pred_img, y_batch[:,0,:,:]).item()
 
     # del X_batch,y_batch,pred_img
 

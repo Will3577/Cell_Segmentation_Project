@@ -49,6 +49,7 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     num_W = int(math.ceil(pseudo_shape[1]/patch_size))
     assert num_H*num_W == n_batches
     i = 0
+    print(num_H,num_W)
     for idx_h in range(num_H):
         for idx_w in range(num_W):
             output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[(num_H)*i+idx_w]

@@ -50,7 +50,7 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     assert num_H*num_W == n_batches
     for idx_h in range(num_H):
         for idx_w in range(num_W):
-            output[idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size,:] = pred[(idx_h+1)*(idx_w+1)]
+            output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[(idx_h+1)*(idx_w+1)]
     output = output[height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding,:]
 
     print("output shape: ",output.shape)

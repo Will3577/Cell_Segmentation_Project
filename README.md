@@ -4,7 +4,7 @@
 - [x] Task 1: Dataset Processing
 - [x] Task 2: Cell Segmentation(ml)
 - [x] Task 3: Cell Segmentation(alg)
-- [ ] Task 4: Instance Segmentation(watershed based?)
+- [ ] Task 4: Instance Segmentation([watershed based?](https://www.youtube.com/watch?v=lOZDTDOlqfk))
 - [ ] Task 5: Cell Tracking(alg)
 - [ ] Task 6: Mitosis Detection(ml)
 - [ ] Task 7: Mitosis Detection(alg)

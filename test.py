@@ -32,6 +32,7 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
 
     tiles = np.array([image[x:x+patch_size,y:y+patch_size] for x in range(0,image.shape[0],patch_size) for y in range(0,image.shape[1],patch_size)])
     tiles = torch.tensor(tiles)
+    tiles = tiles[:,None,:,:]
     print(tiles.shape,image.shape)
 
     return tiles, image.shape, height_padding, width_padding

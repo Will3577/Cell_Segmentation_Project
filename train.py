@@ -34,6 +34,8 @@ parser.add_argument('--save_freq', default=0, type=int)
 parser.add_argument('--learning_rate', type=float, default=1e-3)
 parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--crop_size', required=True, type=int, default=256)
+parser.add_argument('--weights', type=str)
+
 args = parser.parse_args()
 
 # Set random seed for consistent result
@@ -69,7 +71,12 @@ if args.val_folder:
 
 
 # Define net
-net = UNet(in_channel=1,out_channel=2)
+if args.weights:
+    net = torch.load(args.weights)
+    print(">>> Pretrained weights successfully loaded from "+args.weights)
+else:
+    net = UNet(in_channel=1,out_channel=2)
+    
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)
 

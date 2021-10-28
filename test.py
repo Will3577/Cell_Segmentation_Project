@@ -121,10 +121,11 @@ for i, data in enumerate(train_loader, 0):
     # TODO Save predictions
 
     # Thresholding class 1 to 255, class 0 to 0
+    pred_img = torch.argmax(pred_img, dim=1)*255
+    pred_img = pred_img.detach().cpu().numpy()
 
 
-
-    cv2.imwrite(args.results_path+image_name, pred_img)
+    cv2.imwrite(args.save_path+image_name, pred_img)
 
 
 

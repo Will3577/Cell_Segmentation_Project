@@ -91,7 +91,7 @@ criterion = nn.CrossEntropyLoss()
 
 
 # Training data transform func
-test_tf = None #TODO
+test_tf = None
 test_dataset = CellDataset(args.test_folder,transform=test_tf)
 train_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
@@ -112,6 +112,10 @@ for i, data in enumerate(train_loader, 0):
     pred_img = Variable(pred_img.to(device=args.device))
     # Calculate test loss and report
     loss = criterion(pred_img, y_batch)
+
+    # del X_batch,y_batch,pred_img
+
+
     running_loss += loss
     print("test_loss: "+str(running_loss/(i+1)))
     # TODO Save predictions

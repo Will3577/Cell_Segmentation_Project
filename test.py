@@ -40,6 +40,8 @@ def crop_batch(input_batch: torch.tensor, patch_size: int):
 def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, width_padding: int):
     # pred (15,256,256)
     # target (1,700,1100)
+    pred = pred.detach().cpu().numpy()
+    print(pred.shape)
     patch_size = pred[0].shape[0]
     n_batches = pred[0]
     output = np.zeros((pseudo_shape[0],pseudo_shape[1],2))

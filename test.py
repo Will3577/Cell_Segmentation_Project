@@ -93,10 +93,10 @@ criterion = nn.CrossEntropyLoss()
 # Training data transform func
 test_tf = None
 test_dataset = CellDataset(args.test_folder,transform=test_tf)
-train_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 running_loss = 0.0
-for i, data in enumerate(train_loader, 0):
+for i, data in enumerate(test_loader, 0):
     X_batch, y_batch, image_name = data
 
     # crop test image into batches into size of (patch_size x patch_size)
@@ -123,7 +123,8 @@ for i, data in enumerate(train_loader, 0):
     # Thresholding class 1 to 255, class 0 to 0
     pred_img = torch.argmax(pred_img, dim=1)*255
     pred_img = pred_img.detach().cpu().numpy()
-    print(pred_img.shape)
+    pred_img = np.transpose(pred_img,(1,2,0))
+    print(pred_img.shape,image_name)
 
     cv2.imwrite(args.save_path+image_name, pred_img)
 

@@ -41,16 +41,19 @@ def compose_pred(pred: torch.tensor, pseudo_shape: tuple, height_padding: int, w
     # pred (15,256,256)
     # target (1,700,1100)
     pred = pred.detach().cpu().numpy()
-    print(pred.shape)
+    print(pred.shape,pseudo_shape,height_padding,width_padding)
     patch_size = pred[0].shape[1]
     n_batches = pred.shape[0]
     output = np.zeros((2,pseudo_shape[0],pseudo_shape[1]))
     num_H = int(math.ceil(pseudo_shape[0]/patch_size))
     num_W = int(math.ceil(pseudo_shape[1]/patch_size))
     assert num_H*num_W == n_batches
+    i = 0
     for idx_h in range(num_H):
         for idx_w in range(num_W):
-            output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[(idx_h+1)*(idx_w+1)]
+            output[:,idx_h*patch_size:(idx_h+1)*patch_size,idx_w*patch_size:(idx_w+1)*patch_size] = pred[(num_H)*i+idx_w]
+            print((num_H)*i+idx_w)
+        i+=1
     output = output[height_padding:pseudo_shape[0]-height_padding,width_padding:pseudo_shape[1]-width_padding,:]
 
     print("output shape: ",output.shape)

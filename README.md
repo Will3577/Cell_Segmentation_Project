@@ -12,12 +12,12 @@
 ### List of utility functions required to complete above tasks(completed functions in utils.py)
 
 - [x] 1. Generate pseudo masks(png, 255 for cells, 0 for background) using watershed algorithm and save to git hub for experiment on other functions
-- [x] 2. Process tif images to png format, intensity range: (0,255)
-- [x] 3. Write function to remove cells on the image boundary
-- [ ] 4. Write function to read 2d np.array mask(255 for cell, 0 for background) as input and output a list of central points for all cells in the mask
-- [ ] 5. Write function to calculate the mean size of cells by giving a 2d np.array mask
-- [x] 6. Write function to extract contours of cells from mask
-- [ ] 7. Extract tracking information from TRA images. prob output: Image and dict(key:unique label, value:central coord on image and corresponding information about mitosis)
+- [ ] 2. Extract tracking information from TRA images. prob output: Image and dict(key:unique label, value:central coord on image and corresponding information about mitosis)
+- [x] 3. Process tif images to png format
+- [x] 4. Write function to remove cells on the image boundary
+- [ ] 5. Write function to read 2d np.array mask(255 for cell, 0 for background) as input and output a list of central points for all cells in the mask
+- [ ] 6. Write function to calculate the mean size of cells by giving a 2d np.array mask
+- [x] 7. Write function to extract contours of cells from mask
 - [ ] 8. Write function to calculate the average displacement of all cells between two masks
 - [ ] 9. Write function to convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
 - [ ] 8. Write function to evaluate the predicted mask and ground truth mask

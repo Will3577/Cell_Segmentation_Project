@@ -3,6 +3,7 @@ import numpy as np
 from skimage.morphology import reconstruction
 from skimage.feature import peak_local_max
 from scipy import ndimage as ndi
+from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
 import imageio
@@ -52,8 +53,6 @@ def binarize_and_optimize_image(img):
     thresh = remove_border_object(thresh)
     
     return thresh
-
-from scipy import ndimage
 
 def extract_boundary(mask:np.ndarray,show_result:bool=False) -> np.ndarray:
     '''
@@ -123,4 +122,4 @@ def to_gif(img_folder:str, des:str):
 # In case you want to test functions, 
 # run !python utils.py and modify bellow code to get result
 if __name__ == '__main__':
-    print("print any function you want to test!")
+    print("print any function you want")

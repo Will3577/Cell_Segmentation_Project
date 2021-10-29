@@ -24,7 +24,7 @@
 - [x] 9. Write function to combine sequence of images into .gif for better visualization
 
 ### Visualization
-Input image                |  Mask
+Input image                | Predicted Mask
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_input.gif" width="440" height="280"> | <img src="./readme_imgs/02_pred.gif" width="440" height="280">
 

@@ -23,9 +23,7 @@
 - [ ] 8. Write function to evaluate the predicted mask and ground truth mask
 - [x] 9. Write function to combine sequence of images into .gif for better visualization
 
-<!-- <img src="./readme_imgs/02_input.gif" width="550" height="350">
-<img src="./readme_imgs/02_pred.gif" width="550" height="350"> -->
-<!-- <img src="./readme_imgs/02_input.gif" width="550" height="350"> | <img src="./readme_imgs/02_pred.gif" width="550" height="350"> -->
+### Visualization
 Input image                |  Mask
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_input.gif" width="440" height="280"> | <img src="./readme_imgs/02_pred.gif" width="440" height="280">

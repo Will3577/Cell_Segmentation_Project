@@ -27,7 +27,8 @@
 <img src="./readme_imgs/02_pred.gif" width="550" height="350"> -->
 Input image                |  Mask
 :-------------------------:|:-------------------------:
-<img src="./readme_imgs/02_input.gif" width="550" height="350"> | <img src="./readme_imgs/02_pred.gif" width="550" height="350">
+<!-- <img src="./readme_imgs/02_input.gif" width="550" height="350"> | <img src="./readme_imgs/02_pred.gif" width="550" height="350"> -->
+<img src="./readme_imgs/02_input.gif" width="225" height="175"> | <img src="./readme_imgs/02_pred.gif" width="225" height="175">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

@@ -113,7 +113,10 @@ def get_pos_list(img:np.array, label:int) -> [tuple]:
     img: TRA image(.tif) or instance segmentation image in np.array type
     label: label for a unique cell
     '''
-    return list(zip(*np.where(img==label)))
+    out = list(zip(*np.where(img==label)))
+    # reverse the output list so that x=tuple[0], y=tuple[1]
+    reversed = [t[::-1] for t in out]
+    return reversed
 
 # calculate the centroid of a list of positions
 def get_centroid(pos:[tuple],dtype:str='float') -> tuple:
@@ -144,8 +147,20 @@ def get_all_centroids(img:np.array) -> {tuple}:
             output[label] = (n_pixels,centroid)
     return output
 
-
-
+from sklearn.cluster import KMeans
+import math
+# use child positions to inference the posision of parent
+def group_child(centroid_dict:{tuple}) -> [tuple]:
+    n_child = len(centroid_dict.keys())
+    k = math.ceil(n_child/2)
+    print(n_child/2,k)
+    X = []
+    for tup in centroid_dict.values():
+        X.append(tup[1])
+    X = np.array(X)
+    kmeans = KMeans(n_clusters=k, random_state=0).fit(X)
+    centers = kmeans.cluster_centers_
+    return centers
 
 
 

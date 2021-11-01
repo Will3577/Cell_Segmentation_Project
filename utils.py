@@ -98,6 +98,43 @@ def to_gif(img_folder:str, des:str):
           images.append(imageio.imread(img_folder+filename))
     imageio.mimsave(des, images)
 
+# get all pos on image for given label 
+def get_pos_list(img:np.array, label:int) -> [tuple]:
+    '''
+    Args: 
+    img: TRA image(.tif) or instance segmentation image in np.array type
+    label: label for a unique cell
+    '''
+    return list(zip(*np.where(img==label)))
+
+# calculate the centroid of a list of positions
+def get_centroid(pos:[tuple],dtype:str='float') -> tuple:
+    x, y = zip(*pos)
+    l = len(x)
+    if dtype=='int':
+        return round(sum(x)/l), round(sum(y)/l)
+    else:
+        return sum(x)/l, sum(y)/l
+
+# get all centroids in the given image
+def get_all_centroids(img:np.array) -> {tuple}:
+    '''
+    Args:
+    img: image with unique number represent unique cell
+    Output:
+    dictionary with key:label,
+                    value:(total pixels for this label, corresponding centroid)
+    '''
+    labels = np.unique(img)
+    output = {}
+    for label in labels:
+        pos_list = get_pos_list(img,label)
+        n_pixels = len(pos_list)
+        # filter the background label
+        if n_pixels<10000:
+            centroid = get_centroid(pos_list,'int')
+            output[label] = (n_pixels,centroid)
+    return output
 
 
 

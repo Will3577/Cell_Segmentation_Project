@@ -131,7 +131,7 @@ def get_all_centroids(img:np.array) -> {tuple}:
         pos_list = get_pos_list(img,label)
         n_pixels = len(pos_list)
         # filter the background label
-        if n_pixels<10000:
+        if n_pixels<100000:
             centroid = get_centroid(pos_list,'int')
             output[label] = (n_pixels,centroid)
     return output

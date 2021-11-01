@@ -98,6 +98,14 @@ def to_gif(img_folder:str, des:str):
           images.append(imageio.imread(img_folder+filename))
     imageio.mimsave(des, images)
 
+def plot_two_imgs(im1:np.array, im2:np.array, im1_title:str="im1", im2_title:str="im2"):
+    f, axarr = plt.subplots(1,2,figsize=(15,15))
+    axarr[0].imshow(im1)
+    axarr[0].set_title(im1_title)
+    axarr[1].imshow(im2)
+    axarr[1].set_title(im2_title)
+    plt.show()
+
 # get all pos on image for given label 
 def get_pos_list(img:np.array, label:int) -> [tuple]:
     '''

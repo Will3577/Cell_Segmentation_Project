@@ -97,7 +97,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
-        print(X_batch.shape,y_batch.shape,y_batch[0])
+        print(X_batch.shape,y_batch.shape,y_batch[0],torch.amax(X_batch[0]))
         # print(X_batch.shape, y_batch.shape)
         # Send batch to corresponding device
         X_batch = Variable(X_batch.to(device=args.device))

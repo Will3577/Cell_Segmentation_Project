@@ -2,6 +2,63 @@
 
 import torch
 import torch.nn as nn  # All neural network modules, nn.Linear, nn.Conv2d, BatchNorm, Loss functions
+import torch.nn.functional as F
+class VGG_net(nn.Module):
+    def __init__(self, n_classes):
+        super(VGG_net, self).__init__()
+        # conv layers: (in_channel size, out_channels size, kernel_size, stride, padding)
+        self.conv1_1 = nn.Conv2d(3, 64, kernel_size=3, padding=1)
+        self.conv1_2 = nn.Conv2d(64, 64, kernel_size=3, padding=1)
+
+        self.conv2_1 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
+        self.conv2_2 = nn.Conv2d(128, 128, kernel_size=3, padding=1)
+
+        self.conv3_1 = nn.Conv2d(128, 256, kernel_size=3, padding=1)
+        self.conv3_2 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
+        self.conv3_3 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
+
+        self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, padding=1)
+        self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+
+        self.conv5_1 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        self.conv5_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        self.conv5_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+
+        # max pooling (kernel_size, stride)
+        self.pool = nn.MaxPool2d(2, 2)
+
+        # fully conected layers:
+        self.fc6 = nn.Linear(7*7*512, 4096)
+        self.fc7 = nn.Linear(4096, 4096)
+        self.fc8 = nn.Linear(4096, 1000)
+
+    def forward(self, x, training=True):
+        x = F.relu(self.conv1_1(x))
+        x = F.relu(self.conv1_2(x))
+        x = self.pool(x)
+        x = F.relu(self.conv2_1(x))
+        x = F.relu(self.conv2_2(x))
+        x = self.pool(x)
+        x = F.relu(self.conv3_1(x))
+        x = F.relu(self.conv3_2(x))
+        x = F.relu(self.conv3_3(x))
+        x = self.pool(x)
+        x = F.relu(self.conv4_1(x))
+        x = F.relu(self.conv4_2(x))
+        x = F.relu(self.conv4_3(x))
+        x = self.pool(x)
+        x = F.relu(self.conv5_1(x))
+        x = F.relu(self.conv5_2(x))
+        x = F.relu(self.conv5_3(x))
+        x = self.pool(x)
+        x = x.view(-1, 7 * 7 * 512)
+        x = F.relu(self.fc6(x))
+        x = F.dropout(x, 0.5, training=training)
+        x = F.relu(self.fc7(x))
+        x = F.dropout(x, 0.5, training=training)
+        x = self.fc8(x)
+        return x
 VGG_types = {
     "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
     "VGG13": [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
@@ -51,7 +108,7 @@ VGG_types = {
 }
 
 
-class VGG_net(nn.Module):
+class VGG_net1(nn.Module):
     def __init__(self, in_channels=3, num_classes=1000):
         super(VGG_net, self).__init__()
         self.in_channels = in_channels

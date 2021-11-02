@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader
 
 from dataset import *
 from utils import *
-from unet.unet import UNet
+from models import UNet
 
 parser = ArgumentParser()
 parser.add_argument('--train_folder', required=True, type=str)

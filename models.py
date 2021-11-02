@@ -29,7 +29,7 @@ class VGG_net(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
 
         # fully conected layers:
-        self.fc6 = nn.Linear(7*7*512, 4096)
+        self.fc6 = nn.Linear(2048, 4096)
         self.fc7 = nn.Linear(4096, 4096)
         self.fc8 = nn.Linear(4096, num_classes)
 
@@ -52,7 +52,7 @@ class VGG_net(nn.Module):
         x = F.relu(self.conv5_2(x))
         x = F.relu(self.conv5_3(x))
         x = self.pool(x)
-        x = x.view(-1, 7 * 7 * 512)
+        x = x.view(-1, 2048)
         x = F.relu(self.fc6(x))
         x = F.dropout(x, 0.5, training=training)
         x = F.relu(self.fc7(x))

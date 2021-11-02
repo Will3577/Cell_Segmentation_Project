@@ -126,6 +126,7 @@ class MitosisDataset(Dataset):
     def __getitem__(self, idx):
         
         img_name = self.image_list[idx]
+        class_type = int(img_name.split('_')[-1].split('.')[0])
         # img_name = img_name.split('.')[0]+'.jpg'#t'+mask_name[-7:]
         curr = cv2.imread(self.curr_path+img_name, 0)
         next = cv2.imread(self.next_path+img_name, 0)
@@ -151,4 +152,4 @@ class MitosisDataset(Dataset):
         # To long tensor
         # mask = mask.long()
 
-        return curr, next, class_type, img_name
+        return curr, class_type, img_name

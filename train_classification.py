@@ -29,11 +29,9 @@ parser.add_argument('--checkpoint_folder', required=True, type=str)
 parser.add_argument('--device', default='cpu', type=str)
 parser.add_argument('--epochs', default=100, type=int)
 parser.add_argument('--batch_size', default=4, type=int)
-parser.add_argument('--save_freq', default=0, type=int)
 # parser.add_argument('--model_name', type=str, default='unet')
 parser.add_argument('--learning_rate', type=float, default=1e-3)
 parser.add_argument('--weight_decay', type=float, default=0)
-parser.add_argument('--crop_size', required=True, type=int, default=256)
 parser.add_argument('--weights', type=str)
 
 args = parser.parse_args()
@@ -65,7 +63,7 @@ train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=Tru
 
 if args.val_folder:
     # Val data transform func
-    val_tf = TransformMitosis()
+    val_tf = TransformMitosis(flip_rate=0,mirror_rate=0)
     val_dataset = MitosisDataset(args.val_folder,transform=val_tf)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
@@ -75,7 +73,7 @@ if args.weights:
     net = torch.load(args.weights)
     print(">>> Pretrained weights successfully loaded from "+args.weights)
 else:
-    net = VGG_net(in_channel=2,num_classes=2)
+    net = VGG_net(in_channel=1,num_classes=2)
     
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)
@@ -168,43 +166,6 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     # Save latest model
     torch.save(net, args.checkpoint_folder+'latest_model.pt')
 
-    # Save predicted images for every k epochs
-    if args.save_freq > 0:
-        if epoch%args.save_freq == 0:
-            # TODO
-            # print("Saving sample predictions")
-            net.train(False)
-            target_folder = args.checkpoint_folder+pred_folder+str(epoch)+'/'
-            mk_dirs(target_folder)
-            for i, data in enumerate(val_loader, 0):
-                X_batch, y_batch, image_name = data
-                # print(image_name)
-                # Send batch to corresponding device
-                X_batch = Variable(X_batch.to(device=args.device))
-                y_batch = Variable(y_batch.to(device=args.device))
-
-                # Predict on val data
-                y_pred = net(X_batch)
-                y_pred = torch.argmax(y_pred, dim=1)*255
-
-                # detach from gpu
-                X_batch = X_batch.detach().cpu().numpy()
-                y_batch = y_batch.detach().cpu().numpy()
-                y_pred = y_pred.detach().cpu().numpy()
-
-                # for idx in range(y_pred.shape[0]):
-                pred = y_pred[0]
-                name = image_name[0]
-                gt = y_batch[0][0]*255
-                x = X_batch[0]*255
-                x = np.transpose(x,(1,2,0))
-                # print(pred.shape,gt.shape,x.shape,np.amax(pred),np.amax(gt))
-                cv2.imwrite(target_folder+'pred_'+name,pred)
-                cv2.imwrite(target_folder+'gt_'+name,gt)
-                cv2.imwrite(target_folder+'patch_'+name,x)
-
-                del X_batch, y_batch
-                break
 
 # Save log as .csv file for plot generation in future
 keys = execution_log[0].keys()

@@ -147,7 +147,7 @@ class MitosisDataset(Dataset):
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
-        class_type = to_tensor(np.array([class_type]))
+        class_type = to_tensor(np.array([[class_type]]))
         # print(image.shape,mask.shape)
 
         # To long tensor

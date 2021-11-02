@@ -3,105 +3,53 @@
 import torch
 import torch.nn as nn  # All neural network modules, nn.Linear, nn.Conv2d, BatchNorm, Loss functions
 import torch.nn.functional as F
-class Network(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.n_classes = 2
 
-        # define frequently used functions
-        self.relu = nn.ReLU()
-        self.maxpool = nn.MaxPool2d(kernel_size=(2,2),stride=(2,2)) 
-
-        # specify layers
-        self.layers = [16,32,64,128,256]
-        self.linear_layers = [2048,1024,512]
-
-        # first convblock
-        self.convlayer1 = self.convnet_generator(1,self.layers[0])
-        self.convlayer2 = self.convnet_generator(self.layers[0],self.layers[0])
-
-        # second convblock
-        self.convlayer3 = self.convnet_generator(self.layers[0],self.layers[1])
-        self.convlayer4 = self.convnet_generator(self.layers[1],self.layers[1])
-
-        # third convblock
-        self.convlayer5 = self.convnet_generator(self.layers[1],self.layers[2])
-        self.convlayer6 = self.convnet_generator(self.layers[2],self.layers[2])
-        self.convlayer7 = self.convnet_generator(self.layers[2],self.layers[2])
-
-        # forth convblock
-        self.convlayer8 = self.convnet_generator(self.layers[2],self.layers[3])
-        self.convlayer9 = self.convnet_generator(self.layers[3],self.layers[3])
-        self.convlayer10 = self.convnet_generator(self.layers[3],self.layers[3])
-        self.convlayer14 = self.convnet_generator(self.layers[3],self.layers[3])
-
-        # fifth convblock
-        self.convlayer11 = self.convnet_generator(self.layers[3],self.layers[3])
-        self.convlayer12 = self.convnet_generator(self.layers[3],self.layers[3])
-        self.convlayer13 = self.convnet_generator(self.layers[3],self.layers[3])
-        self.convlayer15 = self.convnet_generator(self.layers[3],self.layers[3])
-
-        # Dense layers
-        self.linearlayer1 = self.linearnet_generator(512,self.linear_layers[0])
-        self.linearlayer3 = self.linearnet_generator(self.linear_layers[0],self.linear_layers[1])
-        self.linearlayer4 = self.linearnet_generator(self.linear_layers[1],self.linear_layers[2])
-        
-        self.outputlayer = nn.Linear(self.linear_layers[2],self.n_classes)
-
-    # used to generate convolution layer and apply batchnorm and relu
-    def convnet_generator(self,n_in,n_out):
-        layers = [
-            nn.Conv2d(in_channels=n_in,out_channels=n_out,kernel_size=(3,3),stride=(1,1),padding=(1,1)),
-            nn.BatchNorm2d(n_out), # prevent gradient explode and vanish
+class VGG11(nn.Module):
+    def __init__(self, in_channels, num_classes=1000):
+        super(VGG11, self).__init__()
+        self.in_channels = in_channels
+        self.num_classes = num_classes
+        # convolutional layers 
+        self.conv_layers = nn.Sequential(
+            nn.Conv2d(self.in_channels, 64, kernel_size=3, padding=1),
             nn.ReLU(),
-        ]
-        return nn.Sequential(*layers)
-    
-    # used to generate linear layer combined with batchnorm, relu and dropout
-    def linearnet_generator(self,n_in,n_out):
-        layers = [
-            nn.Linear(n_in,n_out),
-            nn.BatchNorm1d(n_out), # prevent gradient explode and vanish also improve performance
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.ReLU(),
-            nn.Dropout(p=0.5) # prevent overfitting        
-            ]
-        return nn.Sequential(*layers)
-
-    def forward(self, t):
-
-        x = self.convlayer1(t)
-        x = self.convlayer2(x)
-        x = self.maxpool(x)
-
-        x = self.convlayer3(x)
-        x = self.convlayer4(x)
-        x = self.maxpool(x)
-
-        x = self.convlayer5(x)
-        x = self.convlayer6(x)
-        x = self.convlayer7(x)
-        x = self.maxpool(x)
-#------------------------------------
-        x = self.convlayer8(x)
-        x = self.convlayer9(x)
-        x = self.convlayer10(x)
-        x = self.convlayer14(x)
-        x = self.maxpool(x)
-
-        x = self.convlayer11(x)
-        x = self.convlayer12(x)
-        x = self.convlayer13(x)
-        x = self.convlayer15(x)
-        x = self.maxpool(x)
-
-        x = x.view(x.size(0),-1)
-        x = self.linearlayer1(x)
-        x = self.linearlayer3(x)
-        x = self.linearlayer4(x)
-
-        x = self.outputlayer(x)
-
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(128, 256, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(256, 256, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(256, 512, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.Conv2d(512, 512, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2)
+        )
+        # fully connected linear layers
+        self.linear_layers = nn.Sequential(
+            nn.Linear(in_features=512*7*7, out_features=4096),
+            nn.ReLU(),
+            nn.Dropout2d(0.5),
+            nn.Linear(in_features=4096, out_features=4096),
+            nn.ReLU(),
+            nn.Dropout2d(0.5),
+            nn.Linear(in_features=4096, out_features=self.num_classes)
+        )
+    def forward(self, x):
+        x = self.conv_layers(x)
+        # flatten to prepare for the fully connected layers
+        x = x.view(x.size(0), -1)
+        x = self.linear_layers(x)
         return x
+
 VGG_types = {
     "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
     "VGG13": [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
@@ -151,7 +99,7 @@ VGG_types = {
 }
 
 
-class VGG_net1(nn.Module):
+class VGG_net(nn.Module):
     def __init__(self, in_channels=3, num_classes=1000):
         super(VGG_net, self).__init__()
         self.in_channels = in_channels

@@ -73,8 +73,8 @@ if args.weights:
     net = torch.load(args.weights)
     print(">>> Pretrained weights successfully loaded from "+args.weights)
 else:
-    # net = VGG_net(in_channels=1,num_classes=2)
-    net = Network()
+    net = VGG11(in_channels=1,num_classes=2)
+    # net = Network()
     
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)

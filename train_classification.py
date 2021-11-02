@@ -98,7 +98,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
-        print(X_batch.shape,y_batch.shape,y_batch[0],torch.amin(X_batch))
+        # print(X_batch.shape,y_batch.shape,y_batch[0],torch.amin(X_batch))
         # print(X_batch.shape, y_batch.shape)
         # Send batch to corresponding device
         X_batch = Variable(X_batch.to(device=args.device))
@@ -112,7 +112,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # y_pred = torch.argmax(y_pred, dim=1)
         # y_pred = torch.log(y_pred+1e-32)
         # loss = criterion(y_pred, y_batch)
-        print(y_pred.shape,y_batch.shape)
+        # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
 
         loss.backward()
@@ -145,7 +145,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             y_pred = net(X_batch)
             
             # Calculate val loss
-            loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
+            loss = criterion(y_pred.float(), y_batch.long())
 
             del X_batch, y_batch
 

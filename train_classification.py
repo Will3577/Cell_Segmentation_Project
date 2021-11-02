@@ -12,6 +12,7 @@ import torch.optim as optim
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.functional import cross_entropy
+from sklearn.metrics import roc_auc_score
 
 from argparse import ArgumentParser
 from torch.autograd import Variable
@@ -95,6 +96,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     log_dict = {}
     log_dict['epoch'] = epoch
     train_running_loss = 0.0
+    auc_roc = 0.0
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
@@ -114,7 +116,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
-
+        aucroc = roc_auc_score(y_batch.long(),y_pred.float())
         loss.backward()
         optimizer.step()
 
@@ -122,12 +124,13 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         del X_batch, y_batch
 
         train_running_loss += loss.item()
+        auc_roc += aucroc
     
     # print statistics
     # print('[%d] train_loss: %.3f' %
     #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
-
+    log_dict['train_auc'] = auc_roc / (i+1)
 
     # Val data
     # Disable training first

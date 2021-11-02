@@ -59,14 +59,14 @@ else:
 # crop_size = args.crop_size
 # Define dataloader
 # Training data transform func
-train_tf = TransformData(crop=(args.crop_size,args.crop_size))
-train_dataset = CellDataset(args.train_folder,transform=train_tf)
+train_tf = TransformMitosis()
+train_dataset = MitosisDataset(args.train_folder,transform=train_tf)
 train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 if args.val_folder:
     # Val data transform func
-    val_tf = TransformData(crop=(args.crop_size,args.crop_size))
-    val_dataset = CellDataset(args.val_folder,transform=val_tf)
+    val_tf = TransformMitosis()
+    val_dataset = MitosisDataset(args.val_folder,transform=val_tf)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
 

@@ -4,6 +4,8 @@
 import os
 import cv2
 import numpy as np
+from PIL import Image, ImageOps
+from numpy.random import random_sample
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms as T
 from torchvision import utils
@@ -77,18 +79,24 @@ class CellDataset(Dataset):
         return image, mask, img_name
 
 class TransformMitosis:
-    def __init__(self,crop=None):
+    def __init__(self,flip_rate=0.5,mirror_rate=0.5):
         # TODO add more operations to improve model performance
-        self.crop = crop
+        # self.crop = crop
+        self.flip_rate = flip_rate
+        self.mirror_rate = mirror_rate
     
-    def __call__(self,image,next):
-        image = F.to_pil_image(image)
+    def __call__(self,curr,next):
+        curr = F.to_pil_image(curr)
         next = F.to_pil_image(next)
-        # if self.crop:
-        #     i, j, h, w = T.RandomCrop.get_params(image, self.crop)
-        #     image, mask = F.crop(image, i, j, h, w), F.crop(mask, i, j, h, w)
+        if random_sample() < self.flip_rate:
+            curr = ImageOps.flip(curr)
+            next = ImageOps.flip(next)
+        if random_sample() < self.mirror_rate:
+            curr = ImageOps.mirror(curr)
+            next = ImageOps.mirror(next)
+        
 
-        return image, next
+        return curr, next
 
 class MitosisDataset(Dataset):
     """ Cell segmentation dataset
@@ -116,6 +124,7 @@ class MitosisDataset(Dataset):
         return len(os.listdir(self.curr_path))
     
     def __getitem__(self, idx):
+        
         img_name = self.image_list[idx]
         # img_name = img_name.split('.')[0]+'.jpg'#t'+mask_name[-7:]
         curr = cv2.imread(self.curr_path+img_name, 0)
@@ -142,4 +151,4 @@ class MitosisDataset(Dataset):
         # To long tensor
         # mask = mask.long()
 
-        return curr, next, img_name
+        return curr, next, class_type, img_name

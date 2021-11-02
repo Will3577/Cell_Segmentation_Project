@@ -112,7 +112,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # y_pred = torch.log(y_pred+1e-32)
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
-        loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
+        loss = criterion(y_pred.float(), y_batch.long())
 
         loss.backward()
         optimizer.step()

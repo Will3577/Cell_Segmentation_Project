@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader
 
 from dataset import *
 from utils import *
-from models import VGG_net
+from models import *
 
 parser = ArgumentParser()
 parser.add_argument('--train_folder', required=True, type=str)
@@ -73,7 +73,8 @@ if args.weights:
     net = torch.load(args.weights)
     print(">>> Pretrained weights successfully loaded from "+args.weights)
 else:
-    net = VGG_net(in_channels=1,num_classes=2)
+    # net = VGG_net(in_channels=1,num_classes=2)
+    net = Network()
     
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)

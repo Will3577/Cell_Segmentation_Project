@@ -3,61 +3,104 @@
 import torch
 import torch.nn as nn  # All neural network modules, nn.Linear, nn.Conv2d, BatchNorm, Loss functions
 import torch.nn.functional as F
-class VGG_net(nn.Module):
-    def __init__(self, in_channels, num_classes):
-        super(VGG_net, self).__init__()
-        # conv layers: (in_channel size, out_channels size, kernel_size, stride, padding)
-        self.conv1_1 = nn.Conv2d(in_channels, 64, kernel_size=3, padding=1)
-        self.conv1_2 = nn.Conv2d(64, 64, kernel_size=3, padding=1)
+class Network(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.n_classes = 2
 
-        self.conv2_1 = nn.Conv2d(64, 128, kernel_size=3, padding=1)
-        self.conv2_2 = nn.Conv2d(128, 128, kernel_size=3, padding=1)
+        # define frequently used functions
+        self.relu = nn.ReLU()
+        self.maxpool = nn.MaxPool2d(kernel_size=(2,2),stride=(2,2)) 
 
-        self.conv3_1 = nn.Conv2d(128, 256, kernel_size=3, padding=1)
-        self.conv3_2 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
-        self.conv3_3 = nn.Conv2d(256, 256, kernel_size=3, padding=1)
+        # specify layers
+        self.layers = [16,32,64,128,256]
+        self.linear_layers = [2048,1024,512]
 
-        self.conv4_1 = nn.Conv2d(256, 512, kernel_size=3, padding=1)
-        self.conv4_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv4_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        # first convblock
+        self.convlayer1 = self.convnet_generator(1,self.layers[0])
+        self.convlayer2 = self.convnet_generator(self.layers[0],self.layers[0])
 
-        self.conv5_1 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv5_2 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
-        self.conv5_3 = nn.Conv2d(512, 512, kernel_size=3, padding=1)
+        # second convblock
+        self.convlayer3 = self.convnet_generator(self.layers[0],self.layers[1])
+        self.convlayer4 = self.convnet_generator(self.layers[1],self.layers[1])
 
-        # max pooling (kernel_size, stride)
-        self.pool = nn.MaxPool2d(2, 2)
+        # third convblock
+        self.convlayer5 = self.convnet_generator(self.layers[1],self.layers[2])
+        self.convlayer6 = self.convnet_generator(self.layers[2],self.layers[2])
+        self.convlayer7 = self.convnet_generator(self.layers[2],self.layers[2])
 
-        # fully conected layers:
-        self.fc6 = nn.Linear(2048, 4096)
-        self.fc7 = nn.Linear(4096, 4096)
-        self.fc8 = nn.Linear(4096, num_classes)
+        # forth convblock
+        self.convlayer8 = self.convnet_generator(self.layers[2],self.layers[3])
+        self.convlayer9 = self.convnet_generator(self.layers[3],self.layers[3])
+        self.convlayer10 = self.convnet_generator(self.layers[3],self.layers[3])
+        self.convlayer14 = self.convnet_generator(self.layers[3],self.layers[3])
 
-    def forward(self, x, training=True):
-        x = F.relu(self.conv1_1(x))
-        x = F.relu(self.conv1_2(x))
-        x = self.pool(x)
-        x = F.relu(self.conv2_1(x))
-        x = F.relu(self.conv2_2(x))
-        x = self.pool(x)
-        x = F.relu(self.conv3_1(x))
-        x = F.relu(self.conv3_2(x))
-        x = F.relu(self.conv3_3(x))
-        x = self.pool(x)
-        x = F.relu(self.conv4_1(x))
-        x = F.relu(self.conv4_2(x))
-        x = F.relu(self.conv4_3(x))
-        x = self.pool(x)
-        x = F.relu(self.conv5_1(x))
-        x = F.relu(self.conv5_2(x))
-        x = F.relu(self.conv5_3(x))
-        x = self.pool(x)
-        x = x.view(-1, 2048)
-        x = F.relu(self.fc6(x))
-        x = F.dropout(x, 0.5, training=training)
-        x = F.relu(self.fc7(x))
-        x = F.dropout(x, 0.5, training=training)
-        x = self.fc8(x)
+        # fifth convblock
+        self.convlayer11 = self.convnet_generator(self.layers[3],self.layers[3])
+        self.convlayer12 = self.convnet_generator(self.layers[3],self.layers[3])
+        self.convlayer13 = self.convnet_generator(self.layers[3],self.layers[3])
+        self.convlayer15 = self.convnet_generator(self.layers[3],self.layers[3])
+
+        # Dense layers
+        self.linearlayer1 = self.linearnet_generator(512,self.linear_layers[0])
+        self.linearlayer3 = self.linearnet_generator(self.linear_layers[0],self.linear_layers[1])
+        self.linearlayer4 = self.linearnet_generator(self.linear_layers[1],self.linear_layers[2])
+        
+        self.outputlayer = nn.Linear(self.linear_layers[2],self.n_classes)
+
+    # used to generate convolution layer and apply batchnorm and relu
+    def convnet_generator(self,n_in,n_out):
+        layers = [
+            nn.Conv2d(in_channels=n_in,out_channels=n_out,kernel_size=(3,3),stride=(1,1),padding=(1,1)),
+            nn.BatchNorm2d(n_out), # prevent gradient explode and vanish
+            nn.ReLU(),
+        ]
+        return nn.Sequential(*layers)
+    
+    # used to generate linear layer combined with batchnorm, relu and dropout
+    def linearnet_generator(self,n_in,n_out):
+        layers = [
+            nn.Linear(n_in,n_out),
+            nn.BatchNorm1d(n_out), # prevent gradient explode and vanish also improve performance
+            nn.ReLU(),
+            nn.Dropout(p=0.5) # prevent overfitting        
+            ]
+        return nn.Sequential(*layers)
+
+    def forward(self, t):
+
+        x = self.convlayer1(t)
+        x = self.convlayer2(x)
+        x = self.maxpool(x)
+
+        x = self.convlayer3(x)
+        x = self.convlayer4(x)
+        x = self.maxpool(x)
+
+        x = self.convlayer5(x)
+        x = self.convlayer6(x)
+        x = self.convlayer7(x)
+        x = self.maxpool(x)
+#------------------------------------
+        x = self.convlayer8(x)
+        x = self.convlayer9(x)
+        x = self.convlayer10(x)
+        x = self.convlayer14(x)
+        x = self.maxpool(x)
+
+        x = self.convlayer11(x)
+        x = self.convlayer12(x)
+        x = self.convlayer13(x)
+        x = self.convlayer15(x)
+        x = self.maxpool(x)
+
+        x = x.view(x.size(0),-1)
+        x = self.linearlayer1(x)
+        x = self.linearlayer3(x)
+        x = self.linearlayer4(x)
+
+        x = self.outputlayer(x)
+
         return x
 VGG_types = {
     "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],

@@ -96,7 +96,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     log_dict = {}
     log_dict['epoch'] = epoch
     train_running_loss = 0.0
-    auc_roc = 0.0
+    train_auc = 0.0
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
@@ -124,18 +124,19 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         del X_batch, y_batch
 
         train_running_loss += loss.item()
-        auc_roc += aucroc
+        train_auc += aucroc
     
     # print statistics
     # print('[%d] train_loss: %.3f' %
     #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
-    log_dict['train_auc'] = auc_roc / (i+1)
+    log_dict['train_auc'] = train_auc / (i+1)
 
     # Val data
     # Disable training first
     net.train(False)
     val_running_loss = 0.0
+    val_auc = 0.0
     if args.val_folder:
         for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
@@ -149,14 +150,16 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())
-
+            aucroc = roc_auc_score(y_batch.long(),y_pred.float())
             del X_batch, y_batch
 
             val_running_loss += loss.item()
+            val_auc += aucroc
         
         # print('[%d] val_loss: %.3f' %
         #           (epoch, val_running_loss / (i+1)))
         log_dict['val_loss'] = val_running_loss / (i+1)
+        log_dict['val_auc'] = val_auc / (i+1)
     print(log_dict)
     scheduler.step(log_dict[saving_target])
 

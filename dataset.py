@@ -81,13 +81,14 @@ class TransformMitosis:
         # TODO add more operations to improve model performance
         self.crop = crop
     
-    def __call__(self,image,mask):
+    def __call__(self,image,next):
         image = F.to_pil_image(image)
-        mask = F.to_pil_image(mask)
-        if self.crop:
-            i, j, h, w = T.RandomCrop.get_params(image, self.crop)
-            image, mask = F.crop(image, i, j, h, w), F.crop(mask, i, j, h, w)
-        return image, mask
+        next = F.to_pil_image(next)
+        # if self.crop:
+        #     i, j, h, w = T.RandomCrop.get_params(image, self.crop)
+        #     image, mask = F.crop(image, i, j, h, w), F.crop(mask, i, j, h, w)
+
+        return image, next
 
 class MitosisDataset(Dataset):
     """ Cell segmentation dataset

@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn  # All neural network modules, nn.Linear, nn.Conv2d, BatchNorm, Loss functions
 import torch.nn.functional as F
 class VGG_net(nn.Module):
-    def __init__(self, in_channels, n_classes):
+    def __init__(self, in_channels, num_classes):
         super(VGG_net, self).__init__()
         # conv layers: (in_channel size, out_channels size, kernel_size, stride, padding)
         self.conv1_1 = nn.Conv2d(in_channels, 64, kernel_size=3, padding=1)
@@ -31,7 +31,7 @@ class VGG_net(nn.Module):
         # fully conected layers:
         self.fc6 = nn.Linear(7*7*512, 4096)
         self.fc7 = nn.Linear(4096, 4096)
-        self.fc8 = nn.Linear(4096, n_classes)
+        self.fc8 = nn.Linear(4096, num_classes)
 
     def forward(self, x, training=True):
         x = F.relu(self.conv1_1(x))

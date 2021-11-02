@@ -7,7 +7,7 @@ from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
 import imageio
-import gdal
+# import gdal
 
 def mk_dirs(path):
   if not os.path.isdir(path):

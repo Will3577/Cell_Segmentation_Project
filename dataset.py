@@ -97,7 +97,7 @@ class TransformMitosis:
         
 
         return curr, next
-
+import torch
 class MitosisDataset(Dataset):
     """ Cell segmentation dataset
         Folder structure:
@@ -147,10 +147,10 @@ class MitosisDataset(Dataset):
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
-        class_type = to_tensor(np.array([[class_type]]))
+        # class_type = np.array([[class_type]]))
         # print(image.shape,mask.shape)
 
         # To long tensor
-        class_type = class_type.long()
+        # class_type = class_type.long()
 
-        return curr, class_type, img_name
+        return curr, torch.tensor(class_type), img_name

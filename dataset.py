@@ -106,20 +106,20 @@ class MitosisDataset(Dataset):
     """
 
     def __init__(self, dataset_folder, transform=None):
-        self.input_path = dataset_folder+"images/"
-        self.mask_path = dataset_folder+"masks/"
-        self.image_list = os.listdir(self.mask_path)
+        self.curr_path = dataset_folder+"curr/"
+        self.next_path = dataset_folder+"next/"
+        self.image_list = os.listdir(self.curr_path)
 
         self.transform = transform
 
     def __len__(self):
-        return len(os.listdir(self.mask_path))
+        return len(os.listdir(self.curr_path))
     
     def __getitem__(self, idx):
-        mask_name = self.image_list[idx]
-        img_name = mask_name.split('.')[0]+'.png'#t'+mask_name[-7:]
-        image = cv2.imread(self.input_path+img_name, 0)
-        mask = cv2.imread(self.mask_path+mask_name, 0)
+        img_name = self.image_list[idx]
+        # img_name = img_name.split('.')[0]+'.jpg'#t'+mask_name[-7:]
+        curr = cv2.imread(self.curr_path+img_name, 0)
+        next = cv2.imread(self.next_path+img_name, 0)
         # print(self.input_path+img_name, mask_name)
         # print(image.shape,mask.shape,np.amax(image))
         # cv2.imwrite('/content/test_img.png',image)
@@ -127,7 +127,7 @@ class MitosisDataset(Dataset):
         # print(image.shape,mask.shape)
 
         if self.transform:
-            image, mask = self.transform(image, mask)
+            curr, next = self.transform(curr, next)
         
         # image.save('/content/test_img.png')
         # mask.save('/content/test_mask.png')
@@ -135,11 +135,11 @@ class MitosisDataset(Dataset):
         
         # To tensor
         to_tensor = T.ToTensor()
-        image = to_tensor(image)
-        mask = to_tensor(mask)
+        curr = to_tensor(curr)
+        next = to_tensor(next)
         # print(image.shape,mask.shape)
 
         # To long tensor
-        mask = mask.long()
+        # mask = mask.long()
 
-        return image, mask, img_name
+        return curr, next, img_name

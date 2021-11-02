@@ -75,7 +75,7 @@ if args.weights:
     net = torch.load(args.weights)
     print(">>> Pretrained weights successfully loaded from "+args.weights)
 else:
-    net = UNet(in_channel=1,out_channel=2)
+    net = UNet(1,2)
     
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 net.to(device=args.device)

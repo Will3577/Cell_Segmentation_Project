@@ -150,6 +150,6 @@ class MitosisDataset(Dataset):
         # print(image.shape,mask.shape)
 
         # To long tensor
-        # mask = mask.long()
+        class_type = class_type.long()
 
         return curr, class_type, img_name

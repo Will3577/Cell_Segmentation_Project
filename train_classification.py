@@ -51,10 +51,11 @@ pred_folder = 'pred/'
 mk_dirs(args.checkpoint_folder+pred_folder)
 
 # Decided to save best model based on val_loss or train_loss
-if args.val_folder:
-    saving_target = 'val_loss'
-else:
-    saving_target = 'train_loss'
+# if args.val_folder:
+#     saving_target = 'val_loss'
+# else:
+#     saving_target = 'train_loss'
+saving_target = 'val_auc'
 
 # crop_size = args.crop_size
 # Define dataloader
@@ -98,6 +99,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     log_dict['epoch'] = epoch
     train_running_loss = 0.0
     train_auc = 0.0
+    train_acc = 0.0
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
@@ -121,6 +123,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
         aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+        acc = accuracy_compute_fn(y_pred.float(), y_batch.long())
         loss.backward()
         optimizer.step()
 
@@ -129,18 +132,21 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
         train_running_loss += loss.item()
         train_auc += aucroc
+        train_acc += acc
     
     # print statistics
     # print('[%d] train_loss: %.3f' %
     #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
     log_dict['train_auc'] = train_auc / (i+1)
+    log_dict['train_acc'] = train_acc / (i+1)
 
     # Val data
     # Disable training first
     net.train(False)
     val_running_loss = 0.0
     val_auc = 0.0
+    val_acc = 0.0
     if args.val_folder:
         for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
@@ -156,15 +162,18 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())
             aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+            acc = accuracy_compute_fn(y_pred.float(), y_batch.long())
             del X_batch, y_batch
 
             val_running_loss += loss.item()
             val_auc += aucroc
+            val_acc += acc
         
         # print('[%d] val_loss: %.3f' %
         #           (epoch, val_running_loss / (i+1)))
         log_dict['val_loss'] = val_running_loss / (i+1)
         log_dict['val_auc'] = val_auc / (i+1)
+        log_dict['val_acc'] = val_acc / (i+1)
     print(log_dict)
     scheduler.step(log_dict[saving_target])
 

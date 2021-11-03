@@ -56,7 +56,7 @@ mk_dirs(args.checkpoint_folder+pred_folder)
 #     saving_target = 'val_loss'
 # else:
 #     saving_target = 'train_loss'
-saving_target = 'val_auc'
+saving_target = 'val_acc'
 
 # crop_size = args.crop_size
 # Define dataloader
@@ -123,7 +123,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
-        aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+        # aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
         acc = accuracy_compute_fn(y_pred.float(), y_batch.long())
         loss.backward()
         optimizer.step()
@@ -132,14 +132,14 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         del X_batch, y_batch
 
         train_running_loss += loss.item()
-        train_auc += aucroc
+        # train_auc += aucroc
         train_acc += acc
     
     # print statistics
     # print('[%d] train_loss: %.3f' %
     #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
-    log_dict['train_auc'] = train_auc / (i+1)
+    # log_dict['train_auc'] = train_auc / (i+1)
     log_dict['train_acc'] = train_acc / (i+1)
 
     # Val data
@@ -162,18 +162,18 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())
-            aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+            # aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
             acc = accuracy_compute_fn(y_pred.float(), y_batch.long())
             del X_batch, y_batch
 
             val_running_loss += loss.item()
-            val_auc += aucroc
+            # val_auc += aucroc
             val_acc += acc
         
         # print('[%d] val_loss: %.3f' %
         #           (epoch, val_running_loss / (i+1)))
         log_dict['val_loss'] = val_running_loss / (i+1)
-        log_dict['val_auc'] = val_auc / (i+1)
+        # log_dict['val_auc'] = val_auc / (i+1)
         log_dict['val_acc'] = val_acc / (i+1)
     print(log_dict)
     scheduler.step(log_dict[saving_target])

@@ -15,11 +15,11 @@ def mk_dirs(path):
 
 # Load a image list from a folder (specify the folder_num, and flag for cv2.imread)
 # 1 <= folder_num <= 5
-def load_images(folder_num, flag):
+def load_images(pathname, flag):
 
     img_list = []
-    for file in os.listdir("Sequences/0" + str(folder_num)):
-        img = cv2.imread((os.path.join("Sequences/0" + str(folder_num), file)), flag)
+    for file in os.listdir(pathname):
+        img = cv2.imread((os.path.join(pathname, file)), flag)
         img_list.append(img)
     return img_list
 
@@ -54,12 +54,12 @@ def remove_border_object(thresh):
     
     return img_no_border
 
-def binarize_and_optimize_image(img, threshold_low, threshold_high):
-
-    thresh = cv2.threshold(img, threshold_low, threshold_high, cv2.THRESH_BINARY)[1]
+def binarize_and_optimize_image(img, relative_threshold_low, threshold_high):
+    low, high = find_extreme_value(img)
+    thresh = cv2.threshold(img, low + relative_threshold_low, threshold_high, cv2.THRESH_BINARY)[1]
     thresh = remove_small_dots(thresh)
-    # thresh = fill_small_holes(thresh)
-    thresh = remove_border_object(thresh)
+    thresh = fill_small_holes(thresh)
+    # thresh = remove_border_object(thresh)
     
     return thresh
 

@@ -130,7 +130,7 @@ class MitosisDataset(Dataset):
         # img_name = img_name.split('.')[0]+'.jpg'#t'+mask_name[-7:]
         curr = cv2.imread(self.curr_path+img_name, 0)
         next = cv2.imread(self.next_path+img_name, 0)
-        print(np.amax(curr))
+        # print(np.amax(curr))
         # print(self.input_path+img_name, mask_name)
         # print(image.shape,mask.shape,np.amax(image))
         # cv2.imwrite('/content/test_img.png',image)
@@ -140,15 +140,15 @@ class MitosisDataset(Dataset):
         if self.transform:
             curr, next = self.transform(curr, next)
         
-        curr.save('/content/test_img.png')
-        next.save('/content/test_mask.png')
+        # curr.save('/content/test_img.png')
+        # next.save('/content/test_mask.png')
 
         
         # To tensor
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
-        print(torch.amax(curr))
+        # print(torch.amax(curr))
 
         # class_type = np.array([[class_type]]))
         # print(image.shape,mask.shape)

@@ -13,46 +13,69 @@ def mk_dirs(path):
   if not os.path.isdir(path):
       os.makedirs(path)
 
+# Load a image list from a folder (specify the folder_num, and flag for cv2.imread)
+# 1 <= folder_num <= 5
+def load_images(folder_num, flag):
+
+    img_list = []
+    for file in os.listdir("Sequences/0" + str(folder_num)):
+        img = cv2.imread((os.path.join("Sequences/0" + str(folder_num), file)), flag)
+        img_list.append(img)
+    return img_list
+
 def fill_small_holes(thresh):
-    kernel = np.ones((3, 3), dtype=np.uint8)
+    kernel = np.ones((3, 3), dtype=np.uint16)
     thresh = cv2.dilate(thresh, kernel, iterations=2)
     thresh = cv2.erode(thresh, kernel, iterations=2)
     return thresh
-    
+
 def remove_small_dots(thresh):
-    kernel = np.ones((3, 3), dtype=np.uint8)
+    kernel = np.ones((3, 3), dtype=np.uint16)
     thresh = cv2.erode(thresh, kernel, iterations=2)
     thresh = cv2.dilate(thresh, kernel, iterations=2)
     return thresh
 
-def remove_border_object(img):
+def remove_border_object(thresh):
     
-    border = np.zeros(img.shape, dtype=np.uint8)
+    border = np.zeros(thresh.shape, dtype=np.uint16)
     height, width = border.shape
 
     for i in range(width):
-        border[0,i] = img[0,i]
-        border[height-1,i] = img[height-1,i]
+        border[0,i] = thresh[0,i]
+        border[height-1,i] = thresh[height-1,i]
 
     for j in range(height):
-        border[j,0] = img[j,0]
-        border[j,width-1] = img[j,width-1]
+        border[j,0] = thresh[j,0]
+        border[j,width-1] = thresh[j,width-1]
     
-    rec_border = reconstruction(border, img)
+    rec_border = reconstruction(border, thresh)
         
-    img_no_border = img - np.uint8(rec_border)
+    img_no_border = thresh - np.uint16(rec_border)
     
     return img_no_border
 
-# Image needs to be in cv2 grayscale.
-def binarize_and_optimize_image(img):
+def binarize_and_optimize_image(img, threshold_low, threshold_high):
 
-    thresh = cv2.threshold(img, 129, 255, cv2.THRESH_BINARY)[1]
-    thresh = fill_small_holes(thresh)
+    thresh = cv2.threshold(img, threshold_low, threshold_high, cv2.THRESH_BINARY)[1]
     thresh = remove_small_dots(thresh)
+    # thresh = fill_small_holes(thresh)
     thresh = remove_border_object(thresh)
     
     return thresh
+
+def find_extreme_value(img):
+
+    c = img[0,0]
+    d = img[0,0]
+
+
+    for x in range(img.shape[0]):
+        for y in range(img.shape[1]):
+                if img[x,y] < c:
+                    c = img[x,y]
+                if img[x,y] > d:
+                    d = img[x,y]    
+    return c, d
 
 def extract_boundary(mask:np.ndarray,show_result:bool=False) -> np.ndarray:
     '''

@@ -12,7 +12,7 @@ import torch.optim as optim
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.functional import cross_entropy
-from sklearn.metrics import roc_auc_score
+# from sklearn.metrics import roc_auc_score
 
 from argparse import ArgumentParser
 from torch.autograd import Variable
@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 from dataset import *
 from utils import *
 from models import *
+from metrics import *
 
 parser = ArgumentParser()
 parser.add_argument('--train_folder', required=True, type=str)
@@ -116,7 +117,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
-        aucroc = roc_auc_score(y_batch.long(),y_pred.float())
+        aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
         loss.backward()
         optimizer.step()
 
@@ -150,7 +151,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())
-            aucroc = roc_auc_score(y_batch.long(),y_pred.float())
+            aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
             del X_batch, y_batch
 
             val_running_loss += loss.item()

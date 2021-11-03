@@ -69,7 +69,7 @@ if args.val_folder:
     # Val data transform func
     val_tf = TransformMitosis(flip_rate=0,mirror_rate=0)
     val_dataset = MitosisDataset(args.val_folder,args.in_channels,transform=val_tf)
-    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 
 # Define net

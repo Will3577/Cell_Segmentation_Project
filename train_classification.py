@@ -83,7 +83,7 @@ net.to(device=args.device)
 
 
 # Define optimizer and criteration
-criterion = accuracy_compute_fn#cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
+criterion = cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
@@ -106,7 +106,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # Send batch to corresponding device
         X_batch = Variable(X_batch.to(device=args.device))
         y_batch = Variable(y_batch.to(device=args.device))
-
+        print(torch.amax(X_batch))
         # Zero the parameter gradients
         optimizer.zero_grad()
 

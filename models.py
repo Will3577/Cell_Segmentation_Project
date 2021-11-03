@@ -107,7 +107,7 @@ class VGG_net(nn.Module):
         self.conv_layers = self.create_conv_layers(VGG_types["tVGG19"])
 
         self.fcs = nn.Sequential(
-            nn.Linear(512, 2048),
+            nn.Linear(256, 2048),
             nn.ReLU(),
             nn.Dropout(p=0.5),
             nn.Linear(2048, 2048),

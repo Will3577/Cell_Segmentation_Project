@@ -145,10 +145,12 @@ class MitosisDataset(Dataset):
 
         
         # To tensor
-        curr = np.array([curr,next])
+        # curr = np.array([curr,next])
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
+
+        curr = torch.cat((curr, next), 0)
         # print(torch.amax(curr))
 
         # class_type = np.array([[class_type]]))

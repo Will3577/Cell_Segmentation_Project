@@ -139,8 +139,8 @@ class MitosisDataset(Dataset):
         if self.transform:
             curr, next = self.transform(curr, next)
         
-        # image.save('/content/test_img.png')
-        # mask.save('/content/test_mask.png')
+        curr.save('/content/test_img.png')
+        next.save('/content/test_mask.png')
 
         
         # To tensor

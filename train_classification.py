@@ -35,6 +35,7 @@ parser.add_argument('--batch_size', default=4, type=int)
 parser.add_argument('--learning_rate', type=float, default=1e-3)
 parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--weights', type=str)
+parser.add_argument('--in_channels', type=int, default=1)
 
 args = parser.parse_args()
 
@@ -76,7 +77,7 @@ if args.weights:
     net = torch.load(args.weights)
     print(">>> Pretrained weights successfully loaded from "+args.weights)
 else:
-    net = VGG_net(in_channels=1,num_classes=2)
+    net = VGG_net(in_channels=args.in_channels,num_classes=2)
     # net = Network()
     
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

@@ -147,6 +147,8 @@ class MitosisDataset(Dataset):
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
+        print(torch.amax(curr))
+
         # class_type = np.array([[class_type]]))
         # print(image.shape,mask.shape)
 

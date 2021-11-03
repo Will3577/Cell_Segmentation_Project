@@ -21,4 +21,4 @@ def accuracy_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float
     print(y_pred.shape,y_true.shape,y_pred)
     # y_pred = y_pred[:,1]#np.array([pred[1] for pred in y_pred])
     print(y_pred.shape,y_true)
-    return roc_auc_score(y_true, y_pred)
+    return accuracy_score(y_true, y_pred)

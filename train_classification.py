@@ -184,15 +184,15 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     if log_dict[saving_target]>max_auc:
         print(saving_target+' improved from '+str(max_auc)+' to '+str(log_dict[saving_target])+', saving model')
         max_auc = log_dict[saving_target]
-        torch.save(net, args.checkpoint_folder+'best_model.pt')
+        torch.save(net, args.checkpoint_folder+'mitosis_best_model.pt')
     # print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
-    torch.save(net, args.checkpoint_folder+'latest_model.pt')
+    torch.save(net, args.checkpoint_folder+'mitosis_latest_model.pt')
 
 
 # Save log as .csv file for plot generation in future
 keys = execution_log[0].keys()
-with open(args.checkpoint_folder+'log.csv', 'w', newline='')  as output_file:
+with open(args.checkpoint_folder+'mitosis_log.csv', 'w', newline='')  as output_file:
     dict_writer = csv.DictWriter(output_file, keys)
     dict_writer.writeheader()
     dict_writer.writerows(execution_log)

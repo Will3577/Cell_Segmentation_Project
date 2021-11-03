@@ -117,7 +117,7 @@ class MitosisDataset(Dataset):
         self.curr_path = dataset_folder+"curr/"
         self.next_path = dataset_folder+"next/"
         self.image_list = os.listdir(self.curr_path)
-        self.in_channels - in_channels
+        self.in_channels = in_channels
         self.transform = transform
 
     def __len__(self):

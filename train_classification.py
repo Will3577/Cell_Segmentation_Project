@@ -149,6 +149,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
             # Predict on val data
             y_pred = net(X_batch)
+            y_pred = torch.softmax(y_pred,dim=1)
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())

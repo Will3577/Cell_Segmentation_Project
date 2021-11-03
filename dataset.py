@@ -113,11 +113,11 @@ class MitosisDataset(Dataset):
                     |-- ...
     """
 
-    def __init__(self, dataset_folder, transform=None):
+    def __init__(self, dataset_folder,in_channels, transform=None):
         self.curr_path = dataset_folder+"curr/"
         self.next_path = dataset_folder+"next/"
         self.image_list = os.listdir(self.curr_path)
-
+        self.in_channels - in_channels
         self.transform = transform
 
     def __len__(self):
@@ -149,8 +149,8 @@ class MitosisDataset(Dataset):
         to_tensor = T.ToTensor()
         curr = to_tensor(curr)
         next = to_tensor(next)
-
-        curr = torch.cat((curr, next), 0)
+        if self.in_channels==2:
+            curr = torch.cat((curr, next), 0)
         # print(torch.amax(curr))
 
         # class_type = np.array([[class_type]]))

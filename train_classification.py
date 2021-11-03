@@ -62,13 +62,13 @@ saving_target = 'val_auc'
 # Define dataloader
 # Training data transform func
 train_tf = TransformMitosis()
-train_dataset = MitosisDataset(args.train_folder,transform=train_tf)
+train_dataset = MitosisDataset(args.train_folder,args.in_channels,transform=train_tf)
 train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=2)
 
 if args.val_folder:
     # Val data transform func
     val_tf = TransformMitosis(flip_rate=0,mirror_rate=0)
-    val_dataset = MitosisDataset(args.val_folder,transform=val_tf)
+    val_dataset = MitosisDataset(args.val_folder,args.in_channels,transform=val_tf)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
 
@@ -85,7 +85,7 @@ net.to(device=args.device)
 
 
 # Define optimizer and criteration
-criterion = cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
+criterion = cross_entropy
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 

@@ -158,5 +158,5 @@ class MitosisDataset(Dataset):
 
         # To long tensor
         # class_type = class_type.long()
-        print(curr.shape)
+        # print(curr.shape)
         return curr, torch.tensor(class_type), img_name

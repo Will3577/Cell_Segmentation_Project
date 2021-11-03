@@ -88,7 +88,7 @@ criterion = cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
-min_loss = np.inf
+max_auc = -np.inf
 
 execution_log = []
 for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
@@ -180,9 +180,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     execution_log.append(log_dict)
 
     # Save best model
-    if log_dict[saving_target]<min_loss:
-        print(saving_target+' improved from '+str(min_loss)+' to '+str(log_dict[saving_target])+', saving model')
-        min_loss = log_dict[saving_target]
+    if log_dict[saving_target]>max_auc:
+        print(saving_target+' improved from '+str(max_auc)+' to '+str(log_dict[saving_target])+', saving model')
+        max_auc = log_dict[saving_target]
         torch.save(net, args.checkpoint_folder+'best_model.pt')
     # print(args.checkpoint_folder+'best_model.pt')
     # Save latest model

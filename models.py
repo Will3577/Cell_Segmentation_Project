@@ -51,28 +51,6 @@ class VGG11(nn.Module):
         return x
 
 VGG_types = {
-    "VGG11": [64, "M", 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
-    "VGG13": [64, 64, "M", 128, 128, "M", 256, 256, "M", 512, 512, "M", 512, 512, "M"],
-    "VGG16": [
-        64,
-        64,
-        "M",
-        128,
-        128,
-        "M",
-        256,
-        256,
-        256,
-        "M",
-        512,
-        512,
-        512,
-        "M",
-        512,
-        512,
-        512,
-        "M",
-    ],
     "VGG19": [
         64,
         64,
@@ -96,6 +74,29 @@ VGG_types = {
         512,
         "M",
     ],
+    "tVGG19": [
+        16,
+        16,
+        "M",
+        32,
+        32,
+        "M",
+        64,
+        64,
+        64,
+        64,
+        "M",
+        128,
+        128,
+        128,
+        128,
+        "M",
+        256,
+        256,
+        256,
+        256,
+        "M",
+    ]
 }
 
 
@@ -103,16 +104,16 @@ class VGG_net(nn.Module):
     def __init__(self, in_channels=3, num_classes=1000):
         super(VGG_net, self).__init__()
         self.in_channels = in_channels
-        self.conv_layers = self.create_conv_layers(VGG_types["VGG19"])
+        self.conv_layers = self.create_conv_layers(VGG_types["tVGG19"])
 
         self.fcs = nn.Sequential(
-            nn.Linear(512, 4096),
+            nn.Linear(512, 2048),
             nn.ReLU(),
             nn.Dropout(p=0.5),
-            nn.Linear(4096, 4096),
+            nn.Linear(2048, 2048),
             nn.ReLU(),
             nn.Dropout(p=0.5),
-            nn.Linear(4096, num_classes),
+            nn.Linear(2048, num_classes),
         )
 
     def forward(self, x):

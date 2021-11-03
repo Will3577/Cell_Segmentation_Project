@@ -118,7 +118,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch.long())
-        aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+        aucroc = accuracy_compute_fn(y_pred.float(), y_batch.long())
         loss.backward()
         optimizer.step()
 
@@ -153,7 +153,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch.long())
-            aucroc = roc_auc_compute_fn(y_pred.float(), y_batch.long())
+            aucroc = accuracy_compute_fn(y_pred.float(), y_batch.long())
             del X_batch, y_batch
 
             val_running_loss += loss.item()

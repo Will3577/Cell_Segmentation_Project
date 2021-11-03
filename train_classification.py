@@ -83,7 +83,7 @@ net.to(device=args.device)
 
 
 # Define optimizer and criteration
-criterion = cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
+criterion = accuracy_compute_fn#cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 

@@ -6,6 +6,7 @@ from scipy import ndimage as ndi
 from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
+import gdal
 import imageio
 # import gdal
 

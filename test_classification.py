@@ -29,11 +29,8 @@ parser.add_argument('--weights', required=True, type=str)
 parser.add_argument('--val_folder', required=True, type=str)
 
 parser.add_argument('--device', default='cpu', type=str)
-parser.add_argument('--epochs', default=100, type=int)
+parser.add_argument('--epochs', default=1, type=int)
 parser.add_argument('--batch_size', default=4, type=int)
-# parser.add_argument('--model_name', type=str, default='unet')
-parser.add_argument('--learning_rate', type=float, default=1e-3)
-parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--in_channels', type=int, default=1)
 
 args = parser.parse_args()

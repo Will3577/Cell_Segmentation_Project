@@ -26,7 +26,7 @@ from metrics import *
 parser = ArgumentParser()
 # parser.add_argument('--train_folder', required=True, type=str)
 parser.add_argument('--weights', required=True, type=str)
-parser.add_argument('--val_folder', required=True, type=str)
+parser.add_argument('--test_folder', required=True, type=str)
 
 parser.add_argument('--device', default='cpu', type=str)
 parser.add_argument('--epochs', default=1, type=int)
@@ -43,7 +43,7 @@ torch.cuda.manual_seed(seed)
 
 
 # Decided to save best model based on val_loss or train_loss
-saving_target = 'val_acc'
+saving_target = 'test_acc'
 
 # crop_size = args.crop_size
 # Define dataloader
@@ -54,7 +54,7 @@ saving_target = 'val_acc'
 
 # Val data transform func
 val_tf = TransformMitosis(flip_rate=0,mirror_rate=0)
-val_dataset = MitosisDataset(args.val_folder,args.in_channels,transform=val_tf)
+val_dataset = MitosisDataset(args.test_folder,args.in_channels,transform=val_tf)
 val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
 
@@ -86,7 +86,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     val_running_loss = 0.0
     val_auc = 0.0
     val_acc = 0.0
-    if args.val_folder:
+    if args.test_folder:
         for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
 
@@ -110,9 +110,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         
         # print('[%d] val_loss: %.3f' %
         #           (epoch, val_running_loss / (i+1)))
-        log_dict['val_loss'] = val_running_loss / (i+1)
+        log_dict['test_loss'] = val_running_loss / (i+1)
         # log_dict['val_auc'] = val_auc / (i+1)
-        log_dict['val_acc'] = val_acc / (i+1)
+        log_dict['test_acc'] = val_acc / (i+1)
     print(log_dict)
     execution_log.append(log_dict)
 

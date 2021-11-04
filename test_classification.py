@@ -27,7 +27,6 @@ parser = ArgumentParser()
 # parser.add_argument('--train_folder', required=True, type=str)
 parser.add_argument('--weights', required=True, type=str)
 parser.add_argument('--val_folder', required=True, type=str)
-parser.add_argument('--checkpoint_folder', required=True, type=str)
 
 parser.add_argument('--device', default='cpu', type=str)
 parser.add_argument('--epochs', default=100, type=int)

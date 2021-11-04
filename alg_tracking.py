@@ -18,7 +18,7 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
     images = load_images(input_path, -1)
     length = len(images)
     pre_ws_labels = 0
-    used_labels = []
+    unused_label = 0
     minimal = -1
     maximum = -1
 
@@ -36,26 +36,38 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
             if not is_thresh:
                 img = binarize_and_optimize_image(img, 90, 65535)
             ws_labels1 = apply_watershed(img, 15) 
-            label_info_list, ws_labels1_tracked = track_cells(pre_ws_labels, ws_labels1, 0.2, used_labels)
+            label_info_list, ws_labels1_tracked = track_cells(pre_ws_labels, ws_labels1, 0.2, unused_label)
             pre_ws_labels = ws_labels1_tracked
 
         minimal, maximum = find_extreme_value(pre_ws_labels)
         pre_ws_labels = pre_ws_labels.astype(np.uint16)
 
+
         filename = output_path + "t{0:0=3d}".format(file_num) + ".tif"
-        plt.imshow(pre_ws_labels)
-        plt.show()
+        # plt.imshow(pre_ws_labels)
+        # plt.show()
 
         cv2.imwrite(filename, pre_ws_labels)
         file_num += 1
         print(str(file_num) + "/" + str(length) + " - completed, min: " + str(minimal) + " max: " + str(maximum))
 
 
+def calculate_average_size_and_total_cell_number(ws_label):
+    total_cell_number = len(np.unique(ws_label)) - 1
+    total_size = 0
+    for x in range(ws_label.shape[0]):
+        for y in range(ws_label.shape[1]):
+            if ws_label[x, y] != 0:
+                total_size += 1
+
+    average_size = int(float(total_size) / float(total_cell_number))
+    return total_cell_number, average_size
+
 # Track the cells between two images (16 bit)
 # output image with tracked labels
-def track_cells(ws_labels0, ws_labels1, coverage, used_labels):
+def track_cells(ws_labels0, ws_labels1, coverage, unused_label):
 
-    label_info_list = collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels)
+    label_info_list = collect_overlap_label_info(ws_labels0, ws_labels1, coverage, unused_label)
 
     ws_labels1_tracked = ws_labels1.copy()
 
@@ -79,7 +91,7 @@ def apply_watershed(thresh, min_distance):
     ws_labels = watershed(-distance, markers, mask=thresh)
     return ws_labels
 
-def collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels):
+def collect_overlap_label_info(ws_labels0, ws_labels1, coverage, unused_label):
 
     label_info_list = []
 
@@ -102,8 +114,8 @@ def collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels):
                                       "chosen_overlap_label": -1}
                     label_info_list.append(cur_label_info)
 
-                if cur_label not in used_labels:
-                    used_labels.append(cur_label)
+                if cur_label > unused_label:
+                    unused_label = cur_label + 1
 
                 # If this pixel have overlapping labels
                 if ol_label != 0:
@@ -114,27 +126,10 @@ def collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels):
                     # Else, do appending.
                     ol_label_count_increment(ol_label_list, ol_label)
 
-    find_the_most_overlapping_cell(label_info_list, coverage, used_labels)
-    reassign_repeated_label(label_info_list, used_labels)
+    find_the_most_overlapping_cell(label_info_list, coverage, unused_label)
+    reassign_repeated_label(label_info_list, unused_label)
 
     return label_info_list
-
-def reassign_repeated_label(label_info_list, used_labels):
-
-    visited_labels = []
-    repeated_labels = []
-    for label_info in label_info_list:
-        if label_info["chosen_overlap_label"] not in visited_labels:
-            visited_labels.append(label_info["chosen_overlap_label"])
-        else:
-            repeated_labels.append(label_info["chosen_overlap_label"])
-
-    for repeated_label in repeated_labels:
-        for label_info in label_info_list:
-            if label_info["chosen_overlap_label"] == repeated_label:
-                new_label = max(used_labels) + 1
-                label_info["chosen_overlap_label"] = new_label
-                used_labels.append(new_label)
 
 def find_label_in_list(label, label_info_list):
 
@@ -165,7 +160,7 @@ def ol_label_count_increment(ol_label_list, ol_label):
         ol_label_list.append(new_overlap_label)
 
 
-def find_the_most_overlapping_cell(label_info_list, coverage, used_labels):
+def find_the_most_overlapping_cell(label_info_list, coverage, unused_label):
     
     for label in label_info_list:
         max_count = -1
@@ -183,9 +178,23 @@ def find_the_most_overlapping_cell(label_info_list, coverage, used_labels):
             label["chosen_overlap_label"] = max_label
 
         else:
-            new_label = max(used_labels) + 1
-            label["chosen_overlap_label"] = new_label
-            used_labels.append(new_label)
+            label["chosen_overlap_label"] = unused_label
+            unused_label += 1
 
 
+def reassign_repeated_label(label_info_list, unused_label):
+
+    visited_labels = []
+    repeated_labels = []
+    for label_info in label_info_list:
+        if label_info["chosen_overlap_label"] not in visited_labels:
+            visited_labels.append(label_info["chosen_overlap_label"])
+        else:
+            repeated_labels.append(label_info["chosen_overlap_label"])
+
+    for repeated_label in repeated_labels:
+        for label_info in label_info_list:
+            if label_info["chosen_overlap_label"] == repeated_label:
+                label_info["chosen_overlap_label"] = unused_label
+                unused_label += 1
 

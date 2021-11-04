@@ -17,14 +17,20 @@ def mk_dirs(path):
 # Load a image list from a folder (specify the folder_num, and flag for cv2.imread)
 # 1 <= folder_num <= 5
 def load_images(pathname, flag):
-    items = os.listdir(pathname)
-    # print(items)
     img_list = []
     filenames = sorted(os.listdir(pathname))
     for file in filenames:
         img = cv2.imread((os.path.join(pathname, file)), flag)
         img_list.append(img)
     return img_list
+
+def export_images(pathname, images):
+    file_num = 0
+    os.makedirs(pathname, exist_ok=True)
+    for image in images:
+        filename = pathname + "t{0:0=3d}".format(file_num) + ".tif"
+        cv2.imwrite(filename, image)
+        file_num += 1
 
 def fill_small_holes(thresh):
     kernel = np.ones((3, 3), dtype=np.uint16)
@@ -57,12 +63,15 @@ def remove_border_object(thresh):
     
     return img_no_border
 
-def binarize_and_optimize_image(img, relative_threshold_low, threshold_high):
+def binarize_and_optimize_image(img, relative_threshold_low, threshold_high, r_small_dots=True, f_small_holes=True, r_border=False):
     low, high = find_extreme_value(img)
     thresh = cv2.threshold(img, low + relative_threshold_low, threshold_high, cv2.THRESH_BINARY)[1]
-    thresh = remove_small_dots(thresh)
-    thresh = fill_small_holes(thresh)
-    # thresh = remove_border_object(thresh)
+    if r_small_dots:
+        thresh = remove_small_dots(thresh)
+    if f_small_holes:
+        thresh = fill_small_holes(thresh)
+    if r_border:
+        thresh = remove_border_object(thresh)
     
     return thresh
 

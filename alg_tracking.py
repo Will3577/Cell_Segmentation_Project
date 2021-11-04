@@ -18,7 +18,6 @@ def track_cells(ws_labels0, ws_labels1, coverage, used_labels):
         for y in range(ws_labels1_tracked.shape[1]):
             if ws_labels1_tracked[x, y] != 0:
                 label = ws_labels1_tracked[x, y]
-                # overlap_label = label_info_list[label-1]["chosen_overlap_label"]
                 label_info = find_label_in_list(label, label_info_list)
 
                 assert(label_info != -1)

@@ -8,9 +8,9 @@ from utils import *
 
 # Track the cells between two images (16 bit)
 # output image with tracked labels
-def track_cells(ws_labels0, ws_labels1, coverage):
+def track_cells(ws_labels0, ws_labels1, coverage, used_labels):
 
-    label_info_list = collect_overlap_label_info(ws_labels0, ws_labels1, coverage)
+    label_info_list = collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels)
 
     ws_labels1_tracked = ws_labels1.copy()
 
@@ -35,7 +35,7 @@ def apply_watershed(thresh, min_distance):
     ws_labels = watershed(-distance, markers, mask=thresh)
     return ws_labels
 
-def collect_overlap_label_info(ws_labels0, ws_labels1, coverage):
+def collect_overlap_label_info(ws_labels0, ws_labels1, coverage, used_labels):
 
     label_info_list = []
 
@@ -58,7 +58,10 @@ def collect_overlap_label_info(ws_labels0, ws_labels1, coverage):
                                       "chosen_overlap_label": -1}
                     label_info_list.append(cur_label_info)
 
-            # If this pixel have overlapping labels
+                if cur_label not in used_labels:
+                    used_labels.append(cur_label)
+
+                # If this pixel have overlapping labels
                 if ol_label != 0:
                     ol_label_list = cur_label_info["ol_label_list"]
 
@@ -67,7 +70,7 @@ def collect_overlap_label_info(ws_labels0, ws_labels1, coverage):
                     # Else, do appending.
                     ol_label_count_increment(ol_label_list, ol_label)
 
-    find_the_most_overlapping_cell(label_info_list, coverage)
+    find_the_most_overlapping_cell(label_info_list, coverage, used_labels)
 
     return label_info_list
 
@@ -100,15 +103,8 @@ def ol_label_count_increment(ol_label_list, ol_label):
         ol_label_list.append(new_overlap_label)
 
 
-def find_the_most_overlapping_cell(label_info_list, coverage):
+def find_the_most_overlapping_cell(label_info_list, coverage, used_labels):
     
-    unused_label = -1
-    for label in label_info_list:
-        if (unused_label < label["label"]):
-            unused_label = label["label"]
-    
-    unused_label += 1
-
     for label in label_info_list:
         max_count = -1
         max_label = -1
@@ -125,8 +121,9 @@ def find_the_most_overlapping_cell(label_info_list, coverage):
             label["chosen_overlap_label"] = max_label
 
         else:
-            label["chosen_overlap_label"] = unused_label
-            unused_label += 1
+            new_label = max(used_labels) + 1
+            label["chosen_overlap_label"] = new_label
+            used_labels.append(new_label)
 
 
 

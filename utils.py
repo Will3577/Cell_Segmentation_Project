@@ -17,10 +17,11 @@ def mk_dirs(path):
 # Load a image list from a folder (specify the folder_num, and flag for cv2.imread)
 # 1 <= folder_num <= 5
 def load_images(pathname, flag):
-
+    items = os.listdir(pathname)
+    # print(items)
     img_list = []
     filenames = sorted(os.listdir(pathname))
-    for file in os.listdir(filenames):
+    for file in filenames:
         img = cv2.imread((os.path.join(pathname, file)), flag)
         img_list.append(img)
     return img_list

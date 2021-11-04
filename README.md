@@ -28,6 +28,10 @@ Input Image                | Predicted Mask
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_input.gif" width="440" height="280"> | <img src="./readme_imgs/02_pred.gif" width="440" height="280">
 
+Instance Segmentation      | Cell Tracking
+:-------------------------:|:-------------------------:
+<img src="./readme_imgs/02_instance.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
+
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang
 

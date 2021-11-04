@@ -19,7 +19,8 @@ def mk_dirs(path):
 def load_images(pathname, flag):
 
     img_list = []
-    for file in os.listdir(pathname):
+    filenames = sorted(os.listdir(pathname))
+    for file in os.listdir(filenames):
         img = cv2.imread((os.path.join(pathname, file)), flag)
         img_list.append(img)
     return img_list

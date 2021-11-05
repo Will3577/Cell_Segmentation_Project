@@ -8,7 +8,7 @@ from torch import Tensor
 
 def dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: bool = False, epsilon=1e-6):
     # Average of Dice coefficient for all batches, or for a single mask
-    assert input.size() == target.size() (input.size(), target.size())
+    assert input.size() == target.size() 
     if input.dim() == 2 and reduce_batch_first:
         raise ValueError(f'Dice: asked to reduce batch but got tensor without batch dimension (shape {input.shape})')
 
@@ -38,6 +38,7 @@ def multiclass_dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: boo
 
 def dice_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:
     # only calculate the foreground class
+    print(y_preds.shape,y_targets.shape)
     y_preds = y_preds[:,[1],...]
     y_targets = y_targets[:,[1],...]
     return multiclass_dice_coeff(y_preds,y_targets)

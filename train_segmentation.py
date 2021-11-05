@@ -120,8 +120,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
 
         # Free memory space
         del X_batch, y_batch
-        train_running_dice += dice.item()
+        
         train_running_loss += loss.item()
+        train_running_dice += dice.item()
     
     # print statistics
     log_dict['train_loss'] = train_running_loss / (i+1)
@@ -131,6 +132,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     # Disable training first
     net.train(False)
     val_running_loss = 0.0
+    val_running_dice = 0.0
     if args.val_folder:
         for i, data in enumerate(val_loader, 0):
             X_batch, y_batch, image_name = data
@@ -144,14 +146,15 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
             
             # Calculate val loss
             loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
+            dice = dice_compute_fn(y_pred.float(), y_batch[:,0,:,:].long())
 
             del X_batch, y_batch
 
             val_running_loss += loss.item()
-        
-        # print('[%d] val_loss: %.3f' %
-        #           (epoch, val_running_loss / (i+1)))
+            val_running_dice += dice.item()
+
         log_dict['val_loss'] = val_running_loss / (i+1)
+        log_dict['val_dice'] = val_running_dice / (i+1)
     print(log_dict)
     scheduler.step(log_dict[saving_target])
 

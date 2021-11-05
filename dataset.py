@@ -58,13 +58,13 @@ class CellDataset(Dataset):
         # print(image.shape,mask.shape,np.amax(image))
         cv2.imwrite('/content/test_img.png',image)
         cv2.imwrite('/content/test_mask.png',mask)
-        # print(image.shape,mask.shape)
+        print(image.shape,mask.shape)
 
         if self.transform:
             image, mask = self.transform(image, mask)
         
-        # image.save('/content/test_img.png')
-        # mask.save('/content/test_mask.png')
+        image.save('/content/test_img1.png')
+        mask.save('/content/test_mask1.png')
 
         
         # To tensor

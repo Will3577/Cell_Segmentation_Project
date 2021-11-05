@@ -56,17 +56,19 @@ class CellDataset(Dataset):
         mask = cv2.imread(self.mask_path+mask_name, 0)
         # print(self.input_path+img_name, mask_name)
         # print(image.shape,mask.shape,np.amax(image))
-        cv2.imwrite('/content/test_img.png',image)
-        cv2.imwrite('/content/test_mask.png',mask)
         mask[mask==np.amin(mask)]=0
         mask[mask>0] = 255
+        # cv2.imwrite('/content/test_img.png',image)
+        # cv2.imwrite('/content/test_mask.png',mask)
+        # mask[mask==np.amin(mask)]=0
+        # mask[mask>0] = 255
         print(image.shape,mask.shape,np.amin(mask),np.amax(mask),np.unique(mask))
 
         if self.transform:
             image, mask = self.transform(image, mask)
         
-        image.save('/content/test_img1.png')
-        mask.save('/content/test_mask1.png')
+        # image.save('/content/test_img1.png')
+        # mask.save('/content/test_mask1.png')
 
         
         # To tensor

@@ -4,6 +4,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from torch import Tensor
 
+# dice computation function from https://github.com/milesial/Pytorch-UNet/blob/8f317cb13c17ef25a86b25a0c24390e04cd4db82/utils/dice_score.py#L26
 
 def dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: bool = False, epsilon=1e-6):
     # Average of Dice coefficient for all batches, or for a single mask

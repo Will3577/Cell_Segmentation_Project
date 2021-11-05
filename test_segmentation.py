@@ -15,6 +15,8 @@ from argparse import ArgumentParser
 from functools import partial
 
 from dataset import *
+from metrics import dice_compute_fn
+
 
 def crop_batch(input_batch: torch.tensor, patch_size: int):
     # crop_size = (args.crop_size,args.crop_size)
@@ -95,6 +97,7 @@ test_dataset = CellDataset(args.test_folder,transform=test_tf)
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 running_loss = 0.0
+running_dice = 0.0
 for i, data in enumerate(test_loader, 0):
     X_batch, y_batch, image_name = data
 
@@ -111,12 +114,13 @@ for i, data in enumerate(test_loader, 0):
     pred_img = Variable(pred_img.to(device=args.device))
     # Calculate test loss and report
     loss = criterion(pred_img, y_batch[:,0,:,:]).item()
-
+    dice = dice_compute_fn(pred_img.float(), y_batch[:,0,:,:].long())
     # del X_batch,y_batch,pred_img
 
 
     running_loss += loss
-    print("test_loss: "+str(running_loss/(i+1)))
+    running_dice += dice.item()
+
 
     # Thresholding class 1 to 255, class 0 to 0
     pred_img = torch.argmax(pred_img, dim=1)*255
@@ -125,6 +129,7 @@ for i, data in enumerate(test_loader, 0):
     # print(pred_img.shape,image_name)
 
     cv2.imwrite(args.save_path+image_name[0], pred_img)
+print("test_loss: "+str(running_loss/(i+1)),"test_dice: "+str(running_dice/(i+1)))
 
 
 

@@ -120,7 +120,7 @@ for i, data in enumerate(test_loader, 0):
 
     running_loss += loss
     running_dice += dice.item()
-    print("test_loss: "+str(running_loss/(i+1)),"test_dice: "+str(running_dice/(i+1)))
+
 
     # Thresholding class 1 to 255, class 0 to 0
     pred_img = torch.argmax(pred_img, dim=1)*255
@@ -129,6 +129,7 @@ for i, data in enumerate(test_loader, 0):
     # print(pred_img.shape,image_name)
 
     cv2.imwrite(args.save_path+image_name[0], pred_img)
+print("test_loss: "+str(running_loss/(i+1)),"test_dice: "+str(running_dice/(i+1)))
 
 
 

@@ -60,9 +60,7 @@ class CellDataset(Dataset):
         mask[mask>0] = 255
         # cv2.imwrite('/content/test_img.png',image)
         # cv2.imwrite('/content/test_mask.png',mask)
-        # mask[mask==np.amin(mask)]=0
-        # mask[mask>0] = 255
-        print(image.shape,mask.shape,np.amin(mask),np.amax(mask),np.unique(mask))
+        # print(image.shape,mask.shape,np.amin(mask),np.amax(mask),np.unique(mask))
 
         if self.transform:
             image, mask = self.transform(image, mask)

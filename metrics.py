@@ -39,9 +39,10 @@ def multiclass_dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: boo
 
 def dice_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:
     # only calculate the foreground class
-    # y_preds = y_preds[:,[1],...]
+    y_preds = torch.softmax(y_preds,dim=1)
+    y_preds = y_preds[:,[1],...]
     y_targets = F.one_hot(y_targets, 2).permute(0, 3, 1, 2).float()
-    # y_targets = y_targets[:,[1],...]
+    y_targets = y_targets[:,[1],...]
 
     print(y_preds.shape,y_targets.shape,torch.amax(y_preds),torch.amax(y_targets))
 

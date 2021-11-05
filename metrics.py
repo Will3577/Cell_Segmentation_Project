@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
 from torch import Tensor
+import torch.nn.functional as F
 
 # dice computation function from https://github.com/milesial/Pytorch-UNet/blob/8f317cb13c17ef25a86b25a0c24390e04cd4db82/utils/dice_score.py#L26
 
@@ -40,6 +41,7 @@ def dice_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:
     # only calculate the foreground class
     y_preds = y_preds[:,[1],...]
     # y_targets = y_targets[:,[1],...]
+    y_targets = F.one_hot(y_targets, 2).permute(0, 3, 1, 2).float()
     print(y_preds.shape,y_targets.shape)
 
     return multiclass_dice_coeff(y_preds,y_targets)

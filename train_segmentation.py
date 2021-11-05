@@ -1,8 +1,6 @@
 # Code partially adapted from https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 #                             https://github.com/cosmic-cortex/pytorch-UNet
 
-# TODO Add object-wise criteration(dice-coef, f1) in metrics.py
-# TODO Write test pipeline in test.py
 
 import os
 import csv
@@ -20,6 +18,7 @@ from torch.utils.data import DataLoader
 from dataset import *
 from utils import *
 from models import UNet
+from metrics import dice_compute_fn
 
 parser = ArgumentParser()
 parser.add_argument('--train_folder', required=True, type=str)
@@ -96,6 +95,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     log_dict = {}
     log_dict['epoch'] = epoch
     train_running_loss = 0.0
+    train_running_dice = 0.0
     for i, data in enumerate(train_loader, 0):
         # Get the inputs; data is a list of [image_batch, mask_batch]
         X_batch, y_batch, image_name = data
@@ -114,20 +114,18 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
-
+        dice = dice_compute_fn(y_pred.float(), y_batch[:,0,:,:].long())
         loss.backward()
         optimizer.step()
 
         # Free memory space
         del X_batch, y_batch
-
+        train_running_dice += dice.item()
         train_running_loss += loss.item()
     
     # print statistics
-    # print('[%d] train_loss: %.3f' %
-    #               (epoch, train_running_loss / (i+1)))
     log_dict['train_loss'] = train_running_loss / (i+1)
-
+    log_dict['train_dice'] = train_running_dice / (i+1)
 
     # Val data
     # Disable training first

@@ -51,9 +51,9 @@ mk_dirs(args.checkpoint_folder+pred_folder)
 
 # Decided to save best model based on val_loss or train_loss
 if args.val_folder:
-    saving_target = 'val_loss'
+    saving_target = 'val_dice'
 else:
-    saving_target = 'train_loss'
+    saving_target = 'train_dice'
 
 # crop_size = args.crop_size
 # Define dataloader
@@ -85,7 +85,7 @@ criterion = cross_entropy#nn.CrossEntropyLoss()#TODO add extra function
 optimizer = optim.Adam(net.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
 
-min_loss = np.inf
+max_dice = -np.inf
 
 execution_log = []
 for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
@@ -161,9 +161,9 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     execution_log.append(log_dict)
 
     # Save best model
-    if log_dict[saving_target]<min_loss:
-        print(saving_target+' improved from '+str(min_loss)+' to '+str(log_dict[saving_target])+', saving model')
-        min_loss = log_dict[saving_target]
+    if log_dict[saving_target]>max_dice:
+        print(saving_target+' improved from '+str(max_dice)+' to '+str(log_dict[saving_target])+', saving model')
+        max_dice = log_dict[saving_target]
         torch.save(net, args.checkpoint_folder+'best_model.pt')
     # print(args.checkpoint_folder+'best_model.pt')
     # Save latest model
@@ -172,7 +172,6 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
     # Save predicted images for every k epochs
     if args.save_freq > 0:
         if epoch%args.save_freq == 0:
-            # TODO
             # print("Saving sample predictions")
             net.train(False)
             target_folder = args.checkpoint_folder+pred_folder+str(epoch)+'/'

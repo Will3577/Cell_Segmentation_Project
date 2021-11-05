@@ -114,7 +114,7 @@ for epoch in range(1,args.epochs+1):  # loop over the dataset multiple times
         # loss = criterion(y_pred, y_batch)
         # print(y_pred.shape,y_batch.shape)
         loss = criterion(y_pred.float(), y_batch[:,0,:,:].long())
-        dice = dice_compute_fn(y_pred.float(), y_batch[:,0,:,:].long())
+        dice = dice_compute_fn(y_pred.float(), y_batch.long())
         loss.backward()
         optimizer.step()
 

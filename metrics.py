@@ -38,9 +38,10 @@ def multiclass_dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: boo
 
 def dice_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:
     # only calculate the foreground class
-    print(y_preds.shape,y_targets.shape)
     y_preds = y_preds[:,[1],...]
     # y_targets = y_targets[:,[1],...]
+    print(y_preds.shape,y_targets.shape)
+
     return multiclass_dice_coeff(y_preds,y_targets)
 
 def roc_auc_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:

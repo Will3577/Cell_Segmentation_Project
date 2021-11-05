@@ -43,7 +43,7 @@ def dice_compute_fn(y_preds: torch.Tensor, y_targets: torch.Tensor) -> float:
     y_targets = F.one_hot(y_targets, 2).permute(0, 3, 1, 2).float()
     # y_targets = y_targets[:,[1],...]
 
-    print(y_preds.shape,y_targets.shape)
+    print(y_preds.shape,y_targets.shape,torch.amax(y_preds),torch.amax(y_targets))
 
     return multiclass_dice_coeff(y_preds,y_targets)
 

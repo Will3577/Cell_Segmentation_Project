@@ -44,22 +44,22 @@ def remove_small_dots(thresh):
     thresh = cv2.dilate(thresh, kernel, iterations=2)
     return thresh
 
-def remove_border_object(thresh):
+def remove_border_object(img):
     
-    border = np.zeros(thresh.shape, dtype=np.uint16)
+    border = np.zeros(img.shape, dtype=np.uint16)
     height, width = border.shape
 
     for i in range(width):
-        border[0,i] = thresh[0,i]
-        border[height-1,i] = thresh[height-1,i]
+        border[0,i] = img[0,i]
+        border[height-1,i] = img[height-1,i]
 
     for j in range(height):
-        border[j,0] = thresh[j,0]
-        border[j,width-1] = thresh[j,width-1]
+        border[j,0] = img[j,0]
+        border[j,width-1] = img[j,width-1]
     
-    rec_border = reconstruction(border, thresh)
+    rec_border = reconstruction(border, img)
         
-    img_no_border = thresh - np.uint16(rec_border)
+    img_no_border = img - np.uint16(rec_border)
     
     return img_no_border
 

@@ -52,16 +52,48 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
         print(str(file_num) + "/" + str(length) + " - completed, min: " + str(minimal) + " max: " + str(maximum))
 
 
-def calculate_average_size_and_total_cell_number(ws_label):
-    total_cell_number = len(np.unique(ws_label)) - 1
+def get_cell_count_list(pathname):
+    images = load_images(pathname, -1)
+    cell_count_list = []
+    for image in images:
+        cell_count = get_cell_count(image)
+        cell_count_list.append(cell_count)
+    return cell_count_list
+
+def get_cell_count(ws_label):
+    cell_count = len(np.unique(ws_label)) - 1
+    return cell_count
+
+def get_average_size_list(pathname):
+    images = load_images(pathname, -1)
+    average_size_list = []
+    for image in images:
+        average_size = get_average_size(image)
+        average_size_list.append(average_size)
+    return average_size_list
+
+def get_average_size(ws_label):
+    ws_label_no_border = remove_border_object(ws_label)
+    total_cell_number = len(np.unique(ws_label_no_border)) - 1
     total_size = 0
-    for x in range(ws_label.shape[0]):
-        for y in range(ws_label.shape[1]):
-            if ws_label[x, y] != 0:
+    for x in range(ws_label_no_border.shape[0]):
+        for y in range(ws_label_no_border.shape[1]):
+            if ws_label_no_border[x, y] != 0:
                 total_size += 1
 
     average_size = int(float(total_size) / float(total_cell_number))
-    return total_cell_number, average_size
+    return average_size
+
+# def calculate_average_size_and_total_cell_number(ws_label):
+#     total_cell_number = len(np.unique(ws_label)) - 1
+#     total_size = 0
+#     for x in range(ws_label.shape[0]):
+#         for y in range(ws_label.shape[1]):
+#             if ws_label[x, y] != 0:
+#                 total_size += 1
+
+#     average_size = int(float(total_size) / float(total_cell_number))
+#     return total_cell_number, average_size
 
 # Track the cells between two images (16 bit)
 # output image with tracked labels

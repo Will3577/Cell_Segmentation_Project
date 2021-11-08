@@ -6,6 +6,7 @@ from scipy import ndimage as ndi
 from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
+import math
 # import gdal
 import imageio
 # import gdal
@@ -211,7 +212,10 @@ def get_average(data:[int]) -> int:
     ave = sum / len(data)
     return ave
 
-
+def distance(pos1:tuple, pos2:tuple) -> int:
+    square = abs(pos1[0] - pos2[0])^2 + abs(pos2[1] - pos2[1])
+    d = math.sqrt(square)
+    return d
 
 
 

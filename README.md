@@ -7,7 +7,7 @@
 - [x] Task 4: Instance Segmentation([watershed based?](https://www.youtube.com/watch?v=lOZDTDOlqfk))
 - [x] Task 5: Cell Tracking(alg)
 - [x] Task 6: Mitosis Detection(ml)
-<!-- - [ ] Task 7: Mitosis Detection(alg) -->
+- [x] Task 7: Mitosis Detection(alg)
 
 ### List of utility functions required to complete above tasks(completed functions in utils.py)
 

@@ -16,7 +16,7 @@
 - [x] 3. Process tif images to png format
 - [x] 4. Write function to remove cells on the image boundary
 - [x] 5. Write function to read 2d np.array mask(255 for cell, 0 for background) as input and output a list of central points for all cells in the mask
-- [ ] 6. Write function to calculate the mean size of cells by giving a 2d np.array mask
+- [x] 6. Write function to calculate the mean size of cells by giving a 2d np.array mask
 - [x] 7. Write function to extract contours of cells from mask
 - [ ] 8. Write function to calculate the average displacement of all cells between two masks
 - [x] 9. Write function to convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
@@ -31,6 +31,10 @@ Input Image                | Predicted Mask
 Instance Segmentation      | Cell Tracking
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_instance.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
+
+Mitosis Boundary           | Empty
+:-------------------------:|:-------------------------:
+<img src="./readme_imgs/02_boundary.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

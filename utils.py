@@ -6,6 +6,7 @@ from scipy import ndimage as ndi
 from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
+import math
 # import gdal
 import imageio
 # import gdal
@@ -197,9 +198,24 @@ def group_child(centroid_dict:{tuple}) -> [tuple]:
     centers = kmeans.cluster_centers_
     return centers
 
+def flatten(a):
+    for each in a:
+        if not isinstance(each, list):
+            yield each
+        else:
+            yield from flatten(each)
 
+def get_average(data:[int]) -> int:
+    sum = 0
+    for d in data:
+      sum = sum + d
+    ave = sum / len(data)
+    return ave
 
-
+def distance(pos1:tuple, pos2:tuple) -> int:
+    square = math.pow(abs(pos1[0] - pos2[0]),2) + math.pow(abs(pos2[1] - pos2[1]),2)
+    d = math.sqrt(square)
+    return d
 
 
 

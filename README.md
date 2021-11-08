@@ -20,7 +20,8 @@
 - [x] 7. Write function to extract contours of cells from mask
 - [x] 8. Write function to calculate the average displacement of all cells between two masks
 - [x] 9. Write function to convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
-- [x] 10. Write function to combine sequence of images into .gif for better visualization
+- [x] 10. Write function to evaluate the predicted mask and ground truth mask
+- [x] 11. Write function to combine sequence of images into .gif for better visualization
 
 ### Visualization
 Input Image                | Predicted Mask

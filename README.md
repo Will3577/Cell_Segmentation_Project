@@ -32,9 +32,9 @@ Instance Segmentation      | Cell Tracking
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_instance.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
 
-Mitosis Boundary           | Empty
+Mitosis Detection          | Empty
 :-------------------------:|:-------------------------:
-<img src="./readme_imgs/02_boundary.gif" width="440" height="280"> | 
+<img src="./readme_imgs/02_boundary.gif" width="440" height="280"> | <img src="./readme_imgs/02_instance.gif" width="440" height="280">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

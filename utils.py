@@ -213,7 +213,7 @@ def get_average(data:[int]) -> int:
     return ave
 
 def distance(pos1:tuple, pos2:tuple) -> int:
-    square = abs(pos1[0] - pos2[0])^2 + abs(pos2[1] - pos2[1])^2
+    square = math.pow(abs(pos1[0] - pos2[0]),2) + math.pow(abs(pos2[1] - pos2[1]),2)
     d = math.sqrt(square)
     return d
 

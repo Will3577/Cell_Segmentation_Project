@@ -30,12 +30,12 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
         if file_num == 0:
             if not is_thresh:
                 img = binarize_and_optimize_image(img, 90, 65535)
-            pre_ws_labels = apply_watershed(img, 30)
+            pre_ws_labels = apply_watershed(img, 10)
 
         else:
             if not is_thresh:
                 img = binarize_and_optimize_image(img, 90, 65535)
-            ws_labels1 = apply_watershed(img, 30) 
+            ws_labels1 = apply_watershed(img, 10) 
             label_info_list, ws_labels1_tracked = track_cells(pre_ws_labels, ws_labels1, 0.2, used_labels)
             pre_ws_labels = ws_labels1_tracked
 

@@ -222,7 +222,11 @@ def distance(pos1:tuple, pos2:tuple) -> int:
     d = math.sqrt(square)
     return d
 
-
+def save_txt(data:[float],Codename:int):
+    tf = open("Sequences_p/displacement/"+str(Codename)+'_dis.txt','a')
+    for d in data:
+        tf.write(str(d)+'\n')
+    tf.close()
 
 
 

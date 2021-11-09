@@ -1,3 +1,4 @@
+from preprocessing import *
 import cv2
 import numpy as np
 from skimage.morphology import reconstruction
@@ -34,14 +35,14 @@ def export_images(pathname, images):
 
 def fill_small_holes(thresh):
     kernel = np.ones((3, 3), dtype=np.uint16)
-    thresh = cv2.dilate(thresh, kernel, iterations=2)
-    thresh = cv2.erode(thresh, kernel, iterations=2)
+    thresh = cv2.dilate(thresh, kernel, iterations=1)
+    thresh = cv2.erode(thresh, kernel, iterations=1)
     return thresh
 
 def remove_small_dots(thresh):
     kernel = np.ones((3, 3), dtype=np.uint16)
-    thresh = cv2.erode(thresh, kernel, iterations=2)
-    thresh = cv2.dilate(thresh, kernel, iterations=2)
+    thresh = cv2.erode(thresh, kernel, iterations=1)
+    thresh = cv2.dilate(thresh, kernel, iterations=1)
     return thresh
 
 def remove_border_object(img):
@@ -63,7 +64,11 @@ def remove_border_object(img):
     
     return img_no_border
 
-def binarize_and_optimize_image(img, relative_threshold_low, threshold_high, r_small_dots=True, f_small_holes=True, r_border=False):
+def binarize_and_optimize_image(img, relative_threshold_low, threshold_high, gaussian_blur=True, r_small_dots=True, f_small_holes=True, r_border=False):
+
+    if gaussian_blur:
+        img = cv2.GaussianBlur(img, (21,21), cv2.BORDER_DEFAULT)
+
     low, high = find_extreme_value(img)
     thresh = cv2.threshold(img, low + relative_threshold_low, threshold_high, cv2.THRESH_BINARY)[1]
     if r_small_dots:

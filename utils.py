@@ -68,7 +68,7 @@ def remove_border_object(img):
 def binarize_and_optimize_image(img, relative_threshold_low, threshold_high, gaussian_blur=True, r_small_dots=True, f_small_holes=True, r_border=False):
 
     if gaussian_blur:
-        img = cv2.GaussianBlur(img, (15,15), cv2.BORDER_DEFAULT)
+        img = cv2.GaussianBlur(img, (5,5), cv2.BORDER_DEFAULT)
 
     low, high = find_extreme_value(img)
     thresh = cv2.threshold(img, low + relative_threshold_low, threshold_high, cv2.THRESH_BINARY)[1]

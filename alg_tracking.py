@@ -30,12 +30,12 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
         if file_num == 0:
             if not is_thresh:
                 img = binarize_and_optimize_image(img, 90, 65535)
-            pre_ws_labels = apply_watershed(img, 10)
+            pre_ws_labels = apply_watershed(img, 30)
 
         else:
             if not is_thresh:
                 img = binarize_and_optimize_image(img, 90, 65535)
-            ws_labels1 = apply_watershed(img, 10) 
+            ws_labels1 = apply_watershed(img, 30) 
             label_info_list, ws_labels1_tracked = track_cells(pre_ws_labels, ws_labels1, 0.2, used_labels)
             pre_ws_labels = ws_labels1_tracked
 
@@ -44,6 +44,7 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
 
 
         filename = output_path + "t{0:0=3d}".format(file_num) + ".tif"
+        plt.figure(figsize=(20,20))
         plt.imshow(pre_ws_labels)
         plt.show()
 
@@ -116,7 +117,7 @@ def track_cells(ws_labels0, ws_labels1, coverage, used_labels):
 # Apply watershed, input should be thresholded image.
 def apply_watershed(thresh, min_distance):
     distance = ndi.distance_transform_edt(thresh)
-    peak_array = peak_local_max(distance, footprint=np.ones((10,10)), min_distance=min_distance, labels=thresh)
+    peak_array = peak_local_max(distance, footprint=np.ones((3,3)), min_distance=min_distance, labels=thresh)
     mask = np.zeros(distance.shape, dtype=bool)
     mask[tuple(peak_array.T)] = True
     markers, _ = ndi.label(mask)

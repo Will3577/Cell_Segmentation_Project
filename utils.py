@@ -36,14 +36,14 @@ def export_images(pathname, images):
 
 def fill_small_holes(thresh):
     kernel = np.ones((3, 3), dtype=np.uint16)
-    thresh = cv2.dilate(thresh, kernel, iterations=1)
-    thresh = cv2.erode(thresh, kernel, iterations=1)
+    thresh = cv2.dilate(thresh, kernel, iterations=2)
+    thresh = cv2.erode(thresh, kernel, iterations=2)
     return thresh
 
 def remove_small_dots(thresh):
     kernel = np.ones((3, 3), dtype=np.uint16)
-    thresh = cv2.erode(thresh, kernel, iterations=1)
-    thresh = cv2.dilate(thresh, kernel, iterations=1)
+    thresh = cv2.erode(thresh, kernel, iterations=2)
+    thresh = cv2.dilate(thresh, kernel, iterations=2)
     return thresh
 
 def remove_border_object(img):

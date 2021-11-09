@@ -44,8 +44,8 @@ def track_cells_in_folder(input_path, output_path, is_thresh):
 
 
         filename = output_path + "t{0:0=3d}".format(file_num) + ".tif"
-        # plt.imshow(pre_ws_labels)
-        # plt.show()
+        plt.imshow(pre_ws_labels)
+        plt.show()
 
         cv2.imwrite(filename, pre_ws_labels)
         file_num += 1

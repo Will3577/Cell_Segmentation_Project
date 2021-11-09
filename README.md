@@ -7,7 +7,7 @@
 - [x] Task 4: Instance Segmentation([watershed based?](https://www.youtube.com/watch?v=lOZDTDOlqfk))
 - [x] Task 5: Cell Tracking(alg)
 - [x] Task 6: Mitosis Detection(ml)
-<!-- - [ ] Task 7: Mitosis Detection(alg) -->
+- [x] Task 7: Mitosis Detection(alg)
 
 ### List of utility functions required to complete above tasks(completed functions in utils.py)
 
@@ -16,12 +16,12 @@
 - [x] 3. Process tif images to png format
 - [x] 4. Write function to remove cells on the image boundary
 - [x] 5. Write function to read 2d np.array mask(255 for cell, 0 for background) as input and output a list of central points for all cells in the mask
-- [ ] 6. Write function to calculate the mean size of cells by giving a 2d np.array mask
+- [x] 6. Write function to calculate the mean size of cells by giving a 2d np.array mask
 - [x] 7. Write function to extract contours of cells from mask
-- [ ] 8. Write function to calculate the average displacement of all cells between two masks
+- [x] 8. Write function to calculate the average displacement of all cells between two masks
 - [x] 9. Write function to convert mask to object instances image(Similar to images in TRA folder, each cell have a unique label)
-- [ ] 8. Write function to evaluate the predicted mask and ground truth mask
-- [x] 9. Write function to combine sequence of images into .gif for better visualization
+- [x] 10. Write function to evaluate the predicted mask and ground truth mask
+- [x] 11. Write function to combine sequence of images into .gif for better visualization
 
 ### Visualization
 Input Image                | Predicted Mask
@@ -31,6 +31,10 @@ Input Image                | Predicted Mask
 Instance Segmentation      | Cell Tracking
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_instance.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
+
+Mitosis Detection          | Empty
+:-------------------------:|:-------------------------:
+<img src="./readme_imgs/02_boundary.gif" width="440" height="280"> | <img src="./readme_imgs/02_instance.gif" width="440" height="280">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

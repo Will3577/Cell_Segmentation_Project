@@ -85,6 +85,20 @@ def binarize_and_optimize_image(img, relative_threshold_low, threshold_high, gau
     
     return thresh
 
+def contrast_stretching(img):
+    c, d = find_extreme_value(img)
+    
+    a = 0
+    b = 65535
+    
+    new_img = img.copy()
+    
+    for x in range(img.shape[0]):
+        for y in range(img.shape[1]):
+            new_img[x,y] = (img[x,y] - c) * ((b - a)/(d - c)) + a
+
+    return new_img
+
 def find_extreme_value(img):
 
     c = img[0,0]

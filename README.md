@@ -24,17 +24,17 @@
 - [x] 11. Write function to combine sequence of images into .gif for better visualization
 
 ### Visualization
-Input Image                | Predicted Mask
+Input Image                | Instance Segmentation
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_input.gif" width="440" height="280"> | <img src="./readme_imgs/02_pred.gif" width="440" height="280">
 
-Instance Segmentation      | Cell Tracking
+Cell Tracking              | Mitosis Detection
 :-------------------------:|:-------------------------:
-<img src="./readme_imgs/02_instance.gif" width="440" height="280"> | <img src="./readme_imgs/02_path.gif" width="440" height="280">
+<img src="./readme_imgs/02_path.gif" width="440" height="280"> ｜ <img src="./readme_imgs/02_boundary.gif" width="440" height="280">
 
-Mitosis Detection          | Empty
+Task1                      | Task3
 :-------------------------:|:-------------------------:
-<img src="./readme_imgs/02_boundary.gif" width="440" height="280"> | <img src="./readme_imgs/02_instance.gif" width="440" height="280">
+<img src="./readme_imgs/task2.png" width="440" height="280"> | <img src="./readme_imgs/task3.jpg" width="440" height="280">
 
 ### Instructions for collaborating between Google Colab and Git Hub:
 Author: Hengrui Wang

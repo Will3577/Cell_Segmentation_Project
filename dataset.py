@@ -12,9 +12,10 @@ from torchvision import utils
 from torchvision.transforms import functional as F
 
 class TransformData:
-    def __init__(self,crop=None):
+    def __init__(self,crop=None,expand=None):
         # TODO add more operations to improve model performance
         self.crop = crop
+        self.expand = expand
     
     def __call__(self,image,mask):
         image = F.to_pil_image(image)
@@ -22,6 +23,9 @@ class TransformData:
         if self.crop:
             i, j, h, w = T.RandomCrop.get_params(image, self.crop)
             image, mask = F.crop(image, i, j, h, w), F.crop(mask, i, j, h, w)
+        if self.expand:
+            i, j, h, w = T.RandomCrop.get_params(image, self.expand)
+            image, mask = F.crop(image, i, j, h, w, fill="red"), F.crop(mask, i, j, h, w, fill="red")
         return image, mask
 
 class CellDataset(Dataset):
@@ -81,11 +85,13 @@ class CellDataset(Dataset):
         return image, mask, img_name
 
 class TransformMitosis:
-    def __init__(self,flip_rate=0.5,mirror_rate=0.5):
+    def __init__(self,flip_rate=0.5,mirror_rate=0.5,contrast_rate=0.5,invert_rate=0.5):
         # TODO add more operations to improve model performance
         # self.crop = crop
         self.flip_rate = flip_rate
         self.mirror_rate = mirror_rate
+        self.contrast_rate = contrast_rate
+        self.invert_rate = invert_rate
     
     def __call__(self,curr,next):
         curr = F.to_pil_image(curr)
@@ -96,6 +102,12 @@ class TransformMitosis:
         if random_sample() < self.mirror_rate:
             curr = ImageOps.mirror(curr)
             next = ImageOps.mirror(next)
+        if random_sample() < self.contrast_rate:
+            curr = ImageOps.autocontrast(curr, 20)
+            next = ImageOps.autocontrast(next, 20)
+        if random_sample() < self.invert_rate:
+            curr = ImageOps.invert(curr)
+            next = ImageOps.invert(next)
         
 
         return curr, next

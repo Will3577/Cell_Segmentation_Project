@@ -8,7 +8,7 @@ from scipy import ndimage
 import matplotlib.pyplot as plt 
 import os
 import math
-# import gdal
+import gdal
 import imageio
 # import gdal
 
@@ -30,8 +30,9 @@ def export_images(pathname, images):
     file_num = 0
     os.makedirs(pathname, exist_ok=True)
     for image in images:
-        filename = pathname + "t{0:0=3d}".format(file_num) + ".tif"
-        cv2.imwrite(filename, image)
+        filename = pathname + "t{0:0=3d}".format(file_num) + ".png"
+        # cv2.imwrite(filename, image)
+        plt.imsave(filename, image)
         file_num += 1
 
 def fill_small_holes(thresh):

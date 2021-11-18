@@ -1,5 +1,14 @@
 # UNSW COMP9517 21T3 Project
 
+### Acknowledgement of open source code used
+The code for machine learning pipeline is partially adapted from https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html and https://github.com/cosmic-cortex/pytorch-UNet
+
+The code skeleton for dataset is adapted from https://pytorch.org/tutorials/beginner/data_loading_tutorial.html and https://github.com/cosmic-cortex/pytorch-UNet
+
+The code for DBSCAN clustering is adapted from https://cs.stackexchange.com/questions/85929/efficient-point-grouping-algorithm/86040
+
+Corresponding acknowledgements are also listed on the top of the file if open source code is used.
+
 ### Sub tasks for completing project
 - [x] Task 1: Dataset Processing
 - [x] Task 2: Cell Segmentation(ml)

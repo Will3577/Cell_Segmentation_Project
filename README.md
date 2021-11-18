@@ -5,9 +5,9 @@ The code for machine learning pipeline is partially adapted from https://pytorch
 
 The code skeleton for dataset is adapted from https://pytorch.org/tutorials/beginner/data_loading_tutorial.html and https://github.com/cosmic-cortex/pytorch-UNet
 
-Source of UNet model used: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/image_segmentation/semantic_segmentation_unet/model.py
+Source of UNet model: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/image_segmentation/semantic_segmentation_unet/model.py
 
-Source of VGG model used: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/CNN_architectures/pytorch_vgg_implementation.py
+Source of VGG model: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/CNN_architectures/pytorch_vgg_implementation.py
 
 The code for DBSCAN clustering is adapted from https://cs.stackexchange.com/questions/85929/efficient-point-grouping-algorithm/86040
 
@@ -45,7 +45,7 @@ Cell Tracking              | Mitosis Detection
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/02_path.gif" width="440" height="280"> ｜ <img src="./readme_imgs/02_boundary.gif" width="440" height="280">
 
-Task1                      | Task3
+Task1                      | Task2
 :-------------------------:|:-------------------------:
 <img src="./readme_imgs/task2.png" width="440" height="280"> | <img src="./readme_imgs/task3.jpg" width="440" height="280">
 

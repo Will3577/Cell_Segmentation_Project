@@ -5,6 +5,10 @@ The code for machine learning pipeline is partially adapted from https://pytorch
 
 The code skeleton for dataset is adapted from https://pytorch.org/tutorials/beginner/data_loading_tutorial.html and https://github.com/cosmic-cortex/pytorch-UNet
 
+Source of UNet model used: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/image_segmentation/semantic_segmentation_unet/model.py
+
+Source of VGG model used: https://github.com/aladdinpersson/Machine-Learning-Collection/blob/master/ML/Pytorch/CNN_architectures/pytorch_vgg_implementation.py
+
 The code for DBSCAN clustering is adapted from https://cs.stackexchange.com/questions/85929/efficient-point-grouping-algorithm/86040
 
 Corresponding acknowledgements are also listed on the top of the file if open source code is used.

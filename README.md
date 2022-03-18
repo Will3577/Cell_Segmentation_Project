@@ -1,5 +1,3 @@
-# UNSW COMP9517 21T3 Project
-
 ### Acknowledgement of open source code used
 The code for machine learning pipeline is partially adapted from https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html and https://github.com/cosmic-cortex/pytorch-UNet
 
